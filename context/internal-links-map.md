@@ -4,7 +4,7 @@
      in blog content for strategic internal linking.
 
      Fill in all sections with your actual URLs and linking guidelines.
-     This helps Claude create relevant internal links while writing content.
+     This helps Codex create relevant internal links while writing content.
 
      Delete these instruction comments when done.
      See examples/castos/internal-links-map.md for a complete real-world example. -->
@@ -202,7 +202,7 @@ When adding internal links to blog content:
 ## Quick Reference by Topic
 
 <!-- INSTRUCTIONS: Create a quick topic-to-URL mapping for common themes you write about.
-     This helps Claude quickly find relevant links while writing. -->
+     This helps Codex quickly find relevant links while writing. -->
 
 **When writing about [Topic 1]**, link to:
 - [URL 1] - [Brief description]

@@ -1,12 +1,12 @@
 # SEO Machine
 
-A specialized Claude Code workspace for creating long-form, SEO-optimized blog content for any business. This system helps you research, write, analyze, and optimize content that ranks well and serves your target audience.
+A specialized Codex workspace for creating long-form, SEO-optimized blog content for any business. This system helps you research, write, analyze, and optimize content that ranks well and serves your target audience.
 
 ## Overview
 
-SEO Machine is built on Claude Code and provides:
-- **Custom Commands**: `/research`, `/write`, `/rewrite`, `/analyze-existing`, `/optimize`, `/performance-review`, `/publish-draft`, `/article`, `/priorities`, plus specialized research and landing page commands
-- **Specialized Agents**: Content analyzer, SEO optimization, meta element creation, internal linking, keyword mapping, editor, performance analysis, headline generator, CRO analyst, landing page optimizer
+SEO Machine is built on Codex and provides:
+- **Codex Skills**: `$seo-machine-research`, `$seo-machine-write`, `$seo-machine-rewrite`, `$seo-machine-analyze-existing`, `$seo-machine-optimize`, `$seo-machine-performance-review`, `$seo-machine-publish-draft`, `$seo-machine-article`, `$seo-machine-priorities`, plus specialized research and landing page skills
+- **Specialist Skills**: Content analyzer, SEO optimization, meta element creation, internal linking, keyword mapping, editor, performance analysis, headline generator, CRO analyst, landing page optimizer
 - **Marketing Skills**: 26 marketing skills for copywriting, CRO, A/B testing, email sequences, pricing strategy, and more
 - **Advanced SEO Analysis**: Search intent detection, keyword density & clustering, content length comparison, readability scoring, SEO quality rating (0-100)
 - **Data Integrations**: Google Analytics 4, Google Search Console, DataForSEO for real-time performance insights
@@ -16,14 +16,14 @@ SEO Machine is built on Claude Code and provides:
 ## Getting Started
 
 ### Prerequisites
-- [Claude Code](https://claude.com/claude-code) installed
-- Anthropic API account
+- [Codex](https://developers.openai.com/codex) installed
+- OpenAI account for Codex
 
 ### Installation
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/TheCraigHewitt/seomachine.git
+git clone https://github.com/thedarkcder/seomachine.git
 cd seomachine
 ```
 
@@ -39,9 +39,9 @@ This installs:
 - Machine learning (scikit-learn)
 - Web scraping tools (beautifulsoup4)
 
-3. Open in Claude Code:
+3. Open in Codex:
 ```bash
-claude-code .
+codex .
 ```
 
 4. **Customize Context Files** (Important!):
@@ -65,7 +65,7 @@ claude-code .
 
 #### 1. Start with Research
 ```
-/research [topic]
+$seo-machine-research [topic]
 ```
 
 **What it does**:
@@ -73,16 +73,16 @@ claude-code .
 - Analyzes top 10 competitors
 - Identifies content gaps
 - Creates comprehensive research brief
-- Saves to `/research/` directory
+- Saves to `research/` directory
 
 **Example**:
 ```
-/research content marketing strategies for B2B SaaS
+$seo-machine-research content marketing strategies for B2B SaaS
 ```
 
 #### 2. Write the Article
 ```
-/write [topic or research brief]
+$seo-machine-write [topic or research brief]
 ```
 
 **What it does**:
@@ -91,16 +91,16 @@ claude-code .
 - Integrates keywords naturally
 - Includes internal and external links
 - Provides meta elements (title, description, keywords)
-- Automatically triggers optimization agents
+- Runs optimization specialist reviews
 - Saves to `/drafts/` directory
 
 **Example**:
 ```
-/write content marketing strategies for B2B SaaS
+$seo-machine-write content marketing strategies for B2B SaaS
 ```
 
-**Agent Auto-Execution**:
-After writing, these agents automatically analyze the content:
+**Specialist Review Passes**:
+After writing, these specialists analyze the content:
 - **SEO Optimizer**: On-page SEO recommendations
 - **Meta Creator**: Multiple meta title/description options
 - **Internal Linker**: Specific internal linking suggestions
@@ -108,7 +108,7 @@ After writing, these agents automatically analyze the content:
 
 #### 3. Final Optimization
 ```
-/optimize [article file]
+$seo-machine-optimize [article file]
 ```
 
 **What it does**:
@@ -120,14 +120,14 @@ After writing, these agents automatically analyze the content:
 
 **Example**:
 ```
-/optimize drafts/content-marketing-strategies-2025-10-29.md
+$seo-machine-optimize drafts/content-marketing-strategies-2025-10-29.md
 ```
 
 ### Updating Existing Content
 
 #### 1. Analyze Existing Post
 ```
-/analyze-existing [URL or file path]
+$seo-machine-analyze-existing [URL or file path]
 ```
 
 **What it does**:
@@ -137,17 +137,17 @@ After writing, these agents automatically analyze the content:
 - Assesses competitive positioning
 - Provides content health score (0-100)
 - Recommends update priority and scope
-- Saves analysis to `/research/` directory
+- Saves analysis to `research/` directory
 
 **Examples**:
 ```
-/analyze-existing https://yoursite.com/blog/marketing-guide
-/analyze-existing published/marketing-guide-2024-01-15.md
+$seo-machine-analyze-existing https://yoursite.com/blog/marketing-guide
+$seo-machine-analyze-existing published/marketing-guide-2024-01-15.md
 ```
 
 #### 2. Rewrite/Update Content
 ```
-/rewrite [topic or analysis file]
+$seo-machine-rewrite [topic or analysis file]
 ```
 
 **What it does**:
@@ -157,19 +157,19 @@ After writing, these agents automatically analyze the content:
 - Adds new sections to fill gaps
 - Maintains what works from original
 - Tracks changes made
-- Saves to `/rewrites/` directory
+- Saves to `rewrites/` directory
 
 **Example**:
 ```
-/rewrite marketing guide
+$seo-machine-rewrite marketing guide
 ```
 
-## Commands Reference
+## Skills Reference
 
-### `/research [topic]`
+### `$seo-machine-research [topic]`
 Comprehensive keyword and competitive research for new content.
 
-**Output**: Research brief in `/research/brief-[topic]-[date].md`
+**Output**: Research brief in `research/brief-[topic]-[date].md`
 
 **Includes**:
 - Primary and secondary keywords
@@ -181,7 +181,7 @@ Comprehensive keyword and competitive research for new content.
 
 ---
 
-### `/write [topic]`
+### `$seo-machine-write [topic]`
 Create long-form SEO-optimized article (2000-3000+ words).
 
 **Output**: Article in `/drafts/[topic]-[date].md`
@@ -194,17 +194,17 @@ Create long-form SEO-optimized article (2000-3000+ words).
 - SEO checklist
 
 **Auto-Triggers**:
-- SEO Optimizer agent
-- Meta Creator agent
-- Internal Linker agent
-- Keyword Mapper agent
+- SEO Optimizer specialist
+- Meta Creator specialist
+- Internal Linker specialist
+- Keyword Mapper specialist
 
 ---
 
-### `/rewrite [topic]`
+### `$seo-machine-rewrite [topic]`
 Update and improve existing content.
 
-**Output**: Updated article in `/rewrites/[topic]-rewrite-[date].md`
+**Output**: Updated article in `rewrites/[topic]-rewrite-[date].md`
 
 **Includes**:
 - Rewritten/updated content
@@ -214,10 +214,10 @@ Update and improve existing content.
 
 ---
 
-### `/analyze-existing [URL or file]`
+### `$seo-machine-analyze-existing [URL or file]`
 Analyze existing blog posts for improvement opportunities.
 
-**Output**: Analysis report in `/research/analysis-[topic]-[date].md`
+**Output**: Analysis report in `research/analysis-[topic]-[date].md`
 
 **Includes**:
 - Content health score (0-100)
@@ -228,7 +228,7 @@ Analyze existing blog posts for improvement opportunities.
 
 ---
 
-### `/optimize [file]`
+### `$seo-machine-optimize [file]`
 Final SEO optimization pass before publishing.
 
 **Output**: Optimization report in `/drafts/optimization-report-[topic]-[date].md`
@@ -243,51 +243,51 @@ Final SEO optimization pass before publishing.
 
 ---
 
-### `/publish-draft [file]`
-Publish article to WordPress via REST API with Yoast SEO metadata.
+### `$seo-machine-publish-draft [file]`
+Create a WordPress draft through the connected WordPress MCP server, with SEO metadata where the site exposes it.
 
 ---
 
-### `/article [topic]`
+### `$seo-machine-article [topic]`
 Simplified article creation workflow.
 
 ---
 
-### `/priorities`
+### `$seo-machine-priorities`
 Content prioritization matrix using analytics data to identify highest-impact content tasks.
 
 ---
 
-### `/scrub [file]`
+### `$seo-machine-scrub [file]`
 Remove AI watermarks and patterns from content (em-dashes, filler phrases, robotic patterns).
 
 ---
 
-### Research Commands
+### Research Skills
 
-| Command | Description |
+| Skill | Description |
 |---------|-------------|
-| `/research-serp [keyword]` | SERP analysis for a target keyword |
-| `/research-gaps` | Competitor content gap analysis |
-| `/research-trending` | Trending topic opportunities |
-| `/research-performance` | Performance-based content priorities |
-| `/research-topics` | Topic cluster research |
+| `$seo-machine-research-serp [keyword]` | SERP analysis for a target keyword |
+| `$seo-machine-research-gaps` | Competitor content gap analysis |
+| `$seo-machine-research-trending` | Trending topic opportunities |
+| `$seo-machine-research-performance` | Performance-based content priorities |
+| `$seo-machine-research-topics` | Topic cluster research |
 
 ---
 
-### Landing Page Commands
+### Landing Page Skills
 
-| Command | Description |
+| Skill | Description |
 |---------|-------------|
-| `/landing-write [topic]` | Create conversion-optimized landing page |
-| `/landing-audit [file]` | Audit landing page for CRO issues |
-| `/landing-research [topic]` | Research competitors and positioning |
-| `/landing-competitor [URL]` | Deep competitor landing page analysis |
-| `/landing-publish [file]` | Publish landing page to WordPress |
+| `$seo-machine-landing-write [topic]` | Create conversion-optimized landing page |
+| `$seo-machine-landing-audit [file]` | Audit landing page for CRO issues |
+| `$seo-machine-landing-research [topic]` | Research competitors and positioning |
+| `$seo-machine-landing-competitor [URL]` | Deep competitor landing page analysis |
+| `$seo-machine-landing-publish [file]` | Publish landing page to WordPress |
 
-## Agents
+## Specialists
 
-Specialized agents that automatically analyze content and provide expert recommendations.
+Specialized specialists that analyze content and provide expert recommendations.
 
 ### Content Analyzer (NEW!)
 **Purpose**: Comprehensive, data-driven content analysis using 5 specialized modules
@@ -453,7 +453,7 @@ Specialized agents that automatically analyze content and provide expert recomme
 
 ## Marketing Skills
 
-SEO Machine includes 26 marketing skills accessible as slash commands:
+SEO Machine includes 26 marketing skills accessible as skills:
 
 | Category | Skills |
 |----------|--------|
@@ -525,7 +525,7 @@ SEO Machine includes 5 specialized Python modules for comprehensive content anal
 - Transition word usage analysis
 - Overall readability score (0-100)
 
-All modules can be used directly in Python or through the Content Analyzer agent.
+All modules can be used directly in Python or through the Content Analyzer specialist.
 
 ### CRO Analysis Modules
 
@@ -575,19 +575,21 @@ python3 test_dataforseo.py
 
 ### WordPress Integration
 
-Publishing uses the WordPress REST API with a custom MU-plugin that exposes Yoast SEO fields.
+Publishing is MCP-first through the official [`wordpress/mcp-adapter`](https://github.com/wordpress/mcp-adapter). SEO Machine prepares the draft payload, then Codex uses the connected WordPress MCP tools to create draft posts or pages.
 
 **Setup**:
-1. Install `wordpress/seo-machine-yoast-rest.php` as an MU-plugin on your WordPress site
-2. Add `wordpress/functions-snippet.php` to your theme's functions.php
-3. Configure WordPress credentials in `.env`:
+1. Install and initialize `wordpress/mcp-adapter` on your WordPress site.
+2. For local WordPress development, connect Codex with WP-CLI STDIO:
+   ```bash
+   wp mcp-adapter serve --server=mcp-adapter-default-server
    ```
-   WP_URL=https://yoursite.com
-   WP_USERNAME=your_username
-   WP_APP_PASSWORD=your_application_password
+3. For remote WordPress sites, use the `@automattic/mcp-wordpress-remote` proxy against:
+   ```text
+   https://yoursite.com/wp-json/mcp/mcp-adapter-default-server
    ```
+4. Use the legacy REST publisher only as a fallback when MCP is unavailable.
 
-See `wordpress/README.md` for detailed setup instructions.
+See `wordpress/README.md` for fallback REST notes.
 
 See `data_sources/README.md` for analytics setup instructions.
 
@@ -595,8 +597,8 @@ See `data_sources/README.md` for analytics setup instructions.
 
 ```
 seomachine/
-├── .claude/
-│   ├── commands/          # Custom workflow commands
+├── .agents/skills/
+│   ├── skills/          # Custom workflow skills
 │   │   ├── analyze-existing.md
 │   │   ├── research.md
 │   │   ├── write.md
@@ -617,7 +619,7 @@ seomachine/
 │   │   ├── landing-research.md
 │   │   ├── landing-competitor.md
 │   │   └── landing-publish.md
-│   ├── agents/            # Specialized analysis agents
+│   ├── specialists/            # Specialized analysis specialists
 │   │   ├── content-analyzer.md
 │   │   ├── seo-optimizer.md
 │   │   ├── meta-creator.md
@@ -816,7 +818,7 @@ Every article must meet these requirements:
 ## Best Practices
 
 ### Before Writing
-1. **Research first**: Always run `/research` before `/write`
+1. **Research first**: Always run `$seo-machine-research` before `$seo-machine-write`
 2. **Review context**: Read `brand-voice.md` and relevant `writing-examples.md`
 3. **Check keywords**: Verify target keyword in `target-keywords.md`
 4. **Plan internal links**: Review `internal-links-map.md` for linking opportunities
@@ -829,14 +831,14 @@ Every article must meet these requirements:
 5. **Cite sources**: Link to statistics and data sources
 
 ### After Writing
-1. **Review agent output**: Read all agent recommendations carefully
+1. **Review specialist output**: Read all specialist recommendations carefully
 2. **Make improvements**: Address high-priority issues before optimizing
-3. **Run optimize**: Use `/optimize` for final polish
+3. **Run optimize**: Use `$seo-machine-optimize` for final polish
 4. **Self-edit**: Read article as if you're the target reader
 5. **Check quality**: Verify all checklist items met
 
 ### For Rewrites
-1. **Analyze first**: Run `/analyze-existing` to understand scope
+1. **Analyze first**: Run `$seo-machine-analyze-existing` to understand scope
 2. **Determine strategy**: Light update vs. major rewrite?
 3. **Preserve what works**: Keep effective sections
 4. **Focus on gaps**: Add what's missing from competitive content
@@ -851,46 +853,46 @@ Every article must meet these requirements:
 # Create file in topics/ directory with initial thoughts
 
 # Step 2: Research the topic
-/research content marketing strategies
+$seo-machine-research content marketing strategies
 
 # Step 3: Review research brief
 # Read research/brief-content-marketing-strategies-[date].md
 
 # Step 4: Write article
-/write content marketing strategies
+$seo-machine-write content marketing strategies
 
-# Step 5: Review agent feedback
-# Read all agent reports in drafts/
+# Step 5: Review specialist feedback
+# Read all specialist reports in drafts/
 
 # Step 6: Make improvements
-# Edit article based on agent recommendations
+# Edit article based on specialist recommendations
 
 # Step 7: Final optimization
-/optimize drafts/content-marketing-strategies-[date].md
+$seo-machine-optimize drafts/content-marketing-strategies-[date].md
 
 # Step 8: Publish to WordPress (optional)
-/publish-draft drafts/content-marketing-strategies-[date].md
+$seo-machine-publish-draft drafts/content-marketing-strategies-[date].md
 ```
 
 ### Example 2: Updating Existing Content
 
 ```
 # Step 1: Analyze existing post
-/analyze-existing https://yoursite.com/blog/product-comparison
+$seo-machine-analyze-existing https://yoursite.com/blog/product-comparison
 
 # Step 2: Review analysis
 # Read research/analysis-product-comparison-2025-10-29.md
 # Check content health score and priority level
 
 # Step 3: Rewrite content
-/rewrite product comparison
+$seo-machine-rewrite product comparison
 
 # Step 4: Review changes
 # Read rewrites/product-comparison-rewrite-2025-10-29.md
 # Review change summary
 
 # Step 5: Optimize
-/optimize rewrites/product-comparison-rewrite-2025-10-29.md
+$seo-machine-optimize rewrites/product-comparison-rewrite-2025-10-29.md
 
 # Step 6: Publish
 # Move to published/ when ready
@@ -900,9 +902,9 @@ Every article must meet these requirements:
 
 ```
 # Analyze multiple existing posts to prioritize updates
-/analyze-existing https://yoursite.com/blog/post-1
-/analyze-existing https://yoursite.com/blog/post-2
-/analyze-existing https://yoursite.com/blog/post-3
+$seo-machine-analyze-existing https://yoursite.com/blog/post-1
+$seo-machine-analyze-existing https://yoursite.com/blog/post-2
+$seo-machine-analyze-existing https://yoursite.com/blog/post-3
 
 # Review content health scores
 # Prioritize rewrites based on:
@@ -929,9 +931,9 @@ Every article must meet these requirements:
 
 ### Workflow Efficiency
 - **Batch research**: Research multiple topics in one session
-- **Follow structure**: Use consistent article structure from `/write` command
+- **Follow structure**: Use consistent article structure from `$seo-machine-write` skill
 - **Address high-priority first**: Fix critical issues before optimizing details
-- **Use agents wisely**: Let agents handle analysis, you focus on writing
+- **Use specialists wisely**: Let specialists handle analysis, you focus on writing
 - **Build templates**: Save commonly used sections for reuse
 
 ### Avoiding Common Mistakes
@@ -967,33 +969,33 @@ Every article must meet these requirements:
 ### "Content doesn't sound like my brand"
 - **Solution**: Update `context/brand-voice.md` with more specific guidance
 - **Solution**: Add more diverse examples to `context/writing-examples.md`
-- **Solution**: Reference specific examples when using `/write` command
+- **Solution**: Reference specific examples when using `$seo-machine-write` skill
 
 ### "Keyword density too high/low"
 - **Solution**: Review `seo-guidelines.md` target density (1-2%)
-- **Solution**: Use `/optimize` to get specific keyword placement suggestions
-- **Solution**: Use Keyword Mapper agent for distribution analysis
+- **Solution**: Use `$seo-machine-optimize` to get specific keyword placement suggestions
+- **Solution**: Use Keyword Mapper specialist for distribution analysis
 
 ### "Internal links aren't relevant"
 - **Solution**: Update `context/internal-links-map.md` with current pages
-- **Solution**: Organize by topic cluster for easier agent matching
+- **Solution**: Organize by topic cluster for easier specialist matching
 - **Solution**: Provide more context about what each page covers
 
 ### "Articles too similar to competitors"
 - **Solution**: Update `competitor-analysis.md` with differentiation opportunities
 - **Solution**: Add your unique advantages to `brand-voice.md` and `features.md`
-- **Solution**: Reference specific differentiation angles in `/research` command
+- **Solution**: Reference specific differentiation angles in `$seo-machine-research` skill
 
 ## Support & Contributions
 
 ### Getting Help
 - Review this README thoroughly
 - Check context files are properly configured
-- Consult [Claude Code documentation](https://docs.claude.com/claude-code)
+- Consult [Codex documentation](https://developers.openai.com/codex)
 
 ### Contributing
 - Report issues via GitHub Issues
-- Suggest improvements to commands or agents
+- Suggest improvements to skills or specialists
 - Share successful workflows or tips
 
 ## License
@@ -1002,7 +1004,7 @@ Every article must meet these requirements:
 
 ## Credits
 
-Built with [Claude Code](https://claude.com/claude-code) by Anthropic.
+Built for Codex.
 
 Originally developed for Castos, now available as an open-source tool for any business to streamline long-form SEO content creation.
 
@@ -1017,9 +1019,9 @@ Originally developed for Castos, now available as an open-source tool for any bu
 **Ready to start creating?**
 
 1. Configure your context files (use the templates as your guide)
-2. Run `/research [your topic]`
+2. Run `$seo-machine-research [your topic]`
 3. Review the brief
-4. Run `/write [your topic]`
+4. Run `$seo-machine-write [your topic]`
 5. Publish amazing content!
 
 Happy writing! 📝

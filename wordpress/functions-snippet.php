@@ -1,9 +1,10 @@
 <?php
 /**
- * SEO Machine - Yoast REST API Support
+ * SEO Machine - Yoast REST API Fallback Support
  *
  * Add this code to your theme's functions.php file (or use a code snippets plugin).
- * This enables the SEO Machine tool to set Yoast SEO meta fields via REST API.
+ * This enables the legacy SEO Machine REST fallback to set Yoast SEO meta fields.
+ * Prefer WordPress MCP publishing when available.
  *
  * Fields exposed:
  * - focus_keyphrase (Focus Keyphrase)

@@ -1,6 +1,6 @@
 # Data Sources Setup Guide
 
-This guide provides step-by-step instructions for setting up the data source integrations used by SEO Machine: Google Analytics 4 (GA4), Google Search Console, DataForSEO, and WordPress.
+This guide provides step-by-step instructions for setting up the data source integrations used by SEO Machine: Google Analytics 4 (GA4), Google Search Console, DataForSEO, and WordPress MCP publishing.
 
 ---
 
@@ -217,41 +217,85 @@ DataForSEO charges per API request. Common pricing:
 
 ## WordPress Setup
 
-WordPress integration enables publishing articles and landing pages directly from SEO Machine via the REST API.
+WordPress integration enables publishing articles and landing pages directly from SEO Machine through the official `wordpress/mcp-adapter`. Codex should use the MCP tools first; the Python REST publisher is fallback-only.
 
 ### Prerequisites
-- A WordPress site with REST API enabled
-- Admin access to install plugins
-- Yoast SEO plugin installed (for SEO metadata)
+- A WordPress site with MCP adapter support
+- Admin/developer access to install Composer packages or a plugin that bundles the adapter
+- WordPress 6.9+ recommended, or WordPress 6.8 with the Abilities API package installed
+- Optional: Yoast SEO plugin installed if your MCP abilities expose SEO metadata
 
-### Step 1: Install the MU-Plugin
+### Step 1: Install the WordPress MCP Adapter
 
-1. Copy `wordpress/seo-machine-yoast-rest.php` to your WordPress site's `wp-content/mu-plugins/` directory
-2. This plugin exposes Yoast SEO fields via the REST API for programmatic publishing
+Install the official adapter in your WordPress project:
 
-### Step 2: Create an Application Password
+```bash
+composer require wordpress/mcp-adapter
+```
+
+On WordPress 6.8, also install the Abilities API package:
+
+```bash
+composer require wordpress/abilities-api wordpress/mcp-adapter
+```
+
+Initialize the adapter from your plugin/theme integration as described by `wordpress/mcp-adapter`.
+
+### Step 2: Connect Codex to WordPress MCP
+
+For local WordPress development, use WP-CLI STDIO:
+
+```bash
+wp mcp-adapter serve --server=mcp-adapter-default-server --user=admin
+```
+
+For a remote WordPress site, use the Automattic remote proxy:
+
+```json
+{
+  "mcpServers": {
+    "wordpress-http-default": {
+      "command": "npx",
+      "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
+      "env": {
+        "WP_API_URL": "https://yoursite.com/wp-json/mcp/mcp-adapter-default-server",
+        "WP_API_USERNAME": "your-username",
+        "WP_API_PASSWORD": "your-application-password"
+      }
+    }
+  }
+}
+```
+
+The default HTTP endpoint is:
+
+```text
+/wp-json/mcp/mcp-adapter-default-server
+```
+
+### Step 3: Create an Application Password for Remote MCP
 
 1. Log in to your WordPress admin
 2. Go to **Users > Profile**
 3. Scroll to **Application Passwords**
 4. Enter a name: `SEO Machine`
 5. Click **Add New Application Password**
-6. Copy the generated password (you won't see it again)
+6. Use the generated password as `WP_API_PASSWORD` for the MCP remote proxy
 
-### Step 3: Configure the Integration
+### Fallback: Legacy REST Publisher
 
-Add the following to your `.env` file:
+If MCP is unavailable and you explicitly choose the fallback path, configure direct REST credentials:
 ```
-WP_URL=https://yoursite.com
-WP_USERNAME=your_admin_username
-WP_APP_PASSWORD=xxxx xxxx xxxx xxxx xxxx xxxx
+WORDPRESS_URL=https://yoursite.com
+WORDPRESS_USERNAME=your_admin_username
+WORDPRESS_APP_PASSWORD=xxxx xxxx xxxx xxxx xxxx xxxx
 ```
 
-### Step 4: Optional Theme Integration
+Then use `data_sources/modules/wordpress_publisher.py`. This path is not the default Codex workflow.
 
-Add the snippet from `wordpress/functions-snippet.php` to your theme's `functions.php` for additional publishing features.
+### Optional Yoast REST Fallback
 
-See `wordpress/README.md` for more details.
+The files in `wordpress/` expose Yoast SEO fields through the WordPress REST API for the legacy fallback publisher. Prefer MCP abilities when available.
 
 ---
 
@@ -261,9 +305,9 @@ After setting up your data sources, test them to ensure they're working correctl
 
 ### Test GA4 Integration
 
-Run the GA4 agent to fetch traffic data:
+Run the GA4 specialist to fetch traffic data:
 ```bash
-npm run agent:ga4-traffic-data
+npm run specialist:ga4-traffic-data
 ```
 
 Expected output:
@@ -273,9 +317,9 @@ Expected output:
 
 ### Test Google Search Console Integration
 
-Run the GSC agent to fetch search data:
+Run the GSC specialist to fetch search data:
 ```bash
-npm run agent:gsc-search-data
+npm run specialist:gsc-search-data
 ```
 
 Expected output:
@@ -285,9 +329,9 @@ Expected output:
 
 ### Test DataForSEO Integration
 
-Run the keyword research agent:
+Run the keyword research specialist:
 ```bash
-npm run agent:keyword-research "your target keyword"
+npm run specialist:keyword-research "your target keyword"
 ```
 
 Expected output:
@@ -417,10 +461,10 @@ COMPANY_NAME=Your Company
 DATAFORSEO_LOGIN=your_username
 DATAFORSEO_PASSWORD=your_api_password
 
-# WordPress (optional, for /publish-draft)
-WP_URL=https://yoursite.com
-WP_USERNAME=your_username
-WP_APP_PASSWORD=your_application_password
+# WordPress fallback only; MCP is preferred for $seo-machine-publish-draft
+WORDPRESS_URL=https://yoursite.com
+WORDPRESS_USERNAME=your_username
+WORDPRESS_APP_PASSWORD=your_application_password
 ```
 
 ### Useful Links

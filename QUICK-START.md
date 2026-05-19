@@ -37,16 +37,16 @@ Fill out these **3 essential files** with your company info:
 ## Step 3: Create Your First Article (3 min)
 
 ```bash
-# Open in Claude Code
-claude-code .
+# Open in Codex
+codex .
 
 # Research a topic
-/research [your topic]
+$seo-machine-research [your topic]
 
-# Review the research brief in /research/ directory
+# Review the research brief in research/ directory
 
 # Write the article
-/write [your topic]
+$seo-machine-write [your topic]
 
 # Check /drafts/ for your article + optimization reports
 ```
@@ -73,40 +73,40 @@ You now have:
 - Refine your brand voice in `context/brand-voice.md`
 - Map more internal links in `context/internal-links-map.md`
 
-## Common Commands
+## Common Skills
 
-```bash
+```text
 # Core workflow
-/research [topic]           # Research before writing
-/write [topic]              # Create new article
-/article [topic]            # Simplified article creation
-/rewrite [topic]            # Update old content
-/optimize [file]            # Final SEO polish
-/scrub [file]               # Remove AI watermarks
-/publish-draft [file]       # Publish to WordPress
+$seo-machine-research [topic]           # Research before writing
+$seo-machine-write [topic]              # Create new article
+$seo-machine-article [topic]            # Simplified article creation
+$seo-machine-rewrite [topic]            # Update old content
+$seo-machine-optimize [file]            # Final SEO polish
+$seo-machine-scrub [file]               # Remove AI watermarks
+$seo-machine-publish-draft [file]       # Publish to WordPress
 
 # Analysis
-/analyze-existing [URL]     # Analyze existing post
-/performance-review         # Analytics-driven priorities
-/priorities                 # Content prioritization matrix
+$seo-machine-analyze-existing [URL]     # Analyze existing post
+$seo-machine-performance-review         # Analytics-driven priorities
+$seo-machine-priorities                 # Content prioritization matrix
 
 # Research
-/research-serp [keyword]    # SERP analysis
-/research-gaps              # Competitor content gaps
-/research-trending          # Trending topics
-/research-topics            # Topic clusters
+$seo-machine-research-serp [keyword]    # SERP analysis
+$seo-machine-research-gaps              # Competitor content gaps
+$seo-machine-research-trending          # Trending topics
+$seo-machine-research-topics            # Topic clusters
 
 # Landing pages
-/landing-write [topic]      # Create landing page
-/landing-audit [file]       # Audit for CRO issues
-/landing-research [topic]   # Research positioning
+$seo-machine-landing-write [topic]      # Create landing page
+$seo-machine-landing-audit [file]       # Audit for CRO issues
+$seo-machine-landing-research [topic]   # Research positioning
 ```
 
 ## Need Help?
 
 - Full Documentation: See README.md
 - Real Example: Check `examples/castos/` directory
-- Issues: https://github.com/TheCraigHewitt/seomachine/issues
+- Issues: https://github.com/thedarkcder/seomachine/issues
 
 ---
 

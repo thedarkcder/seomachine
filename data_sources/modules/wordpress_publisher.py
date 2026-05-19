@@ -1,8 +1,10 @@
 """
 WordPress Publisher Module
 
-Publishes draft articles to WordPress as draft posts via the REST API.
-Supports Yoast SEO meta fields (title, description, focus keyphrase).
+Legacy fallback publisher for environments where the WordPress MCP adapter is
+not available. The primary Codex workflow publishes through WordPress MCP tools.
+This fallback publishes draft articles to WordPress via the REST API and
+supports Yoast SEO meta fields (title, description, focus keyphrase).
 """
 
 import os
@@ -13,7 +15,7 @@ from pathlib import Path
 
 
 class WordPressPublisher:
-    """WordPress REST API client for publishing drafts"""
+    """Legacy WordPress REST API client for publishing drafts when MCP is unavailable."""
 
     def __init__(
         self,

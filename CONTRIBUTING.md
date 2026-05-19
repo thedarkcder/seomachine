@@ -6,23 +6,23 @@ Thank you for your interest in improving SEO Machine! This document provides gui
 
 ### Reporting Issues
 If you encounter bugs or have suggestions:
-1. Check existing [GitHub Issues](https://github.com/thecraighewitt/seomachine/issues) to avoid duplicates
+1. Check existing [GitHub Issues](https://github.com/thedarkcder/seomachine/issues) to avoid duplicates
 2. Create a new issue with:
    - Clear description of the problem or suggestion
    - Steps to reproduce (for bugs)
    - Expected vs. actual behavior
-   - Your environment (Claude Code version, OS, etc.)
+   - Your environment (Codex version, OS, etc.)
 
 ### Suggesting Improvements
 
-**For Commands**:
-- Propose new workflow commands in `.claude/commands/`
+**For Skills**:
+- Propose new workflow skills in `.agents/skills/`
 - Explain the use case and workflow
-- Provide example command structure
+- Provide example skill structure
 
-**For Agents**:
-- Suggest new specialized agents in `.claude/agents/`
-- Define the agent's expertise and output format
+**For Specialists**:
+- Suggest new specialist skills in `.agents/skills/specialists/`
+- Define the specialist's expertise and output format
 - Show how it integrates with existing workflow
 
 **For Context Files**:
@@ -34,7 +34,7 @@ If you encounter bugs or have suggestions:
 
 1. **Fork the Repository**
    ```bash
-   git clone https://github.com/thecraighewitt/seomachine.git
+   git clone https://github.com/thedarkcder/seomachine.git
    cd seomachine
    ```
 
@@ -62,15 +62,15 @@ If you encounter bugs or have suggestions:
 
 ## Code Style Guidelines
 
-### Command Files (`.claude/commands/`)
-- Use clear, descriptive command names
-- Include comprehensive "What This Command Does" section
+### Skill Files (`.agents/skills/`)
+- Use clear, descriptive skill names
+- Include comprehensive "What This Skill Does" section
 - Provide detailed "Process" breakdown
 - Specify expected "Output" format
 - Include "File Management" for automatic saves
 - Give usage examples
 
-### Agent Files (`.claude/agents/`)
+### Specialist Skill Files (`.agents/skills/specialists/`)
 - Define "Core Mission" clearly
 - List "Expertise Areas"
 - Provide detailed analysis framework
@@ -94,7 +94,7 @@ If you encounter bugs or have suggestions:
 ## Testing Your Contributions
 
 Before submitting:
-1. **Test the Command/Agent**: Run it with real content
+1. **Test the Skill/Specialist**: Run it with real content
 2. **Verify Output**: Ensure output matches expected format
 3. **Check Integration**: Confirm it works with existing workflow
 4. **Update Documentation**: Add usage examples to README.md
@@ -112,8 +112,8 @@ Contributions should maintain high quality:
 ## What We're Looking For
 
 **High Priority**:
-- Improved command workflows
-- New specialized agents for content optimization
+- Improved skill workflows
+- New specialist skills for content optimization
 - Better context file templates
 - Enhanced SEO capabilities
 - Time-saving automation features
@@ -135,7 +135,7 @@ Contributions should maintain high quality:
 
 - Open a GitHub Issue with "Question:" prefix
 - Review existing documentation in README.md
-- Check Claude Code documentation
+- Check Codex documentation
 
 ## License
 

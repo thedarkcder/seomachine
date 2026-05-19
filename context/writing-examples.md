@@ -1,7 +1,7 @@
 # [YOUR COMPANY] Writing Examples
 
 <!-- INSTRUCTIONS: This file should contain 3-5 exemplary blog posts that demonstrate your brand voice,
-     style, and quality standards. These examples help Claude understand how to write in your voice.
+     style, and quality standards. These examples help Codex understand how to write in your voice.
 
      Copy and paste complete articles from your blog that represent your best work.
      See examples/castos/writing-examples.md for a real-world example with 5 full articles.
@@ -53,7 +53,7 @@ Include:
 - Lists and formatting
 - Conclusion and CTA
 
-This should be at least 1,500+ words to give Claude enough content
+This should be at least 1,500+ words to give Codex enough content
 to understand your writing style, voice, and structure.
 ```
 
@@ -151,4 +151,4 @@ If you don't have published blog content yet, you can:
 3. Add these as you publish new content
 4. Reference industry-standard examples with your voice notes
 
-**Remember**: The more complete and representative your examples, the better Claude will understand and replicate your writing style.
+**Remember**: The more complete and representative your examples, the better Codex will understand and replicate your writing style.

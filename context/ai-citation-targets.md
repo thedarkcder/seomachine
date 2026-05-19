@@ -1,6 +1,6 @@
 # AI Citation Targets
 
-When AI tools (ChatGPT, Perplexity, Gemini, Claude) recommend products or services, they pull from sources across the web. This file tracks the platforms, directories, and content surfaces where your brand needs to be present and well-represented to maximize AI citation frequency.
+When AI tools (ChatGPT, Perplexity, Gemini, and similar tools) recommend products or services, they pull from sources across the web. This file tracks the platforms, directories, and content surfaces where your brand needs to be present and well-represented to maximize AI citation frequency.
 
 ## How This File Is Used
 

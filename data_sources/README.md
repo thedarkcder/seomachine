@@ -193,7 +193,7 @@ competitor_data = dfs.analyze_competitor(
 serp = dfs.get_serp_data(keyword="podcast monetization")
 ```
 
-### From Claude Code Agent
+### From Codex Skill
 
 The Performance Agent automatically uses these data sources:
 

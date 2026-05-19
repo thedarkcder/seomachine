@@ -1,12 +1,14 @@
-# WordPress Integration Files
+# WordPress REST Fallback Files
 
-These files enable the SEO Machine tool to set Yoast SEO meta fields (Focus Keyphrase, SEO Title, Meta Description) via the REST API.
+SEO Machine is MCP-first for WordPress publishing. Prefer the official `wordpress/mcp-adapter` integration so Codex can create and update WordPress drafts through MCP tools.
+
+These files are retained only for the legacy REST fallback path. They enable the fallback Python publisher to set Yoast SEO meta fields (Focus Keyphrase, SEO Title, Meta Description) via the WordPress REST API when MCP is unavailable.
 
 **Choose ONE option** - either the mu-plugin OR the functions.php snippet. They do the same thing.
 
 ---
 
-## Option A: MU-Plugin (Recommended)
+## Option A: MU-Plugin (REST Fallback)
 
 **File:** `seo-machine-yoast-rest.php`
 
