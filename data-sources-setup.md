@@ -261,9 +261,9 @@ After setting up your data sources, test them to ensure they're working correctl
 
 ### Test GA4 Integration
 
-Run the GA4 agent to fetch traffic data:
+Run the GA4 specialist to fetch traffic data:
 ```bash
-npm run agent:ga4-traffic-data
+npm run specialist:ga4-traffic-data
 ```
 
 Expected output:
@@ -273,9 +273,9 @@ Expected output:
 
 ### Test Google Search Console Integration
 
-Run the GSC agent to fetch search data:
+Run the GSC specialist to fetch search data:
 ```bash
-npm run agent:gsc-search-data
+npm run specialist:gsc-search-data
 ```
 
 Expected output:
@@ -285,9 +285,9 @@ Expected output:
 
 ### Test DataForSEO Integration
 
-Run the keyword research agent:
+Run the keyword research specialist:
 ```bash
-npm run agent:keyword-research "your target keyword"
+npm run specialist:keyword-research "your target keyword"
 ```
 
 Expected output:
@@ -417,7 +417,7 @@ COMPANY_NAME=Your Company
 DATAFORSEO_LOGIN=your_username
 DATAFORSEO_PASSWORD=your_api_password
 
-# WordPress (optional, for /publish-draft)
+# WordPress (optional, for $seo-machine-publish-draft)
 WP_URL=https://yoursite.com
 WP_USERNAME=your_username
 WP_APP_PASSWORD=your_application_password

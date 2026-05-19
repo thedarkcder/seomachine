@@ -7,9 +7,9 @@ SEO Machine is ready to help you create world-class SEO content for your busines
 ### Project Structure
 ```
 seomachine/
-├── .claude/
-│   ├── commands/          # 5 workflow commands
-│   └── agents/            # 4 specialized agents
+├── .agents/skills/
+│   ├── skills/          # 5 workflow skills
+│   └── specialists/            # 4 specialist skills
 ├── context/               # 7 configuration templates
 ├── topics/                # Topic idea storage
 ├── research/              # Research briefs
@@ -21,14 +21,14 @@ seomachine/
 
 ### What You Have
 
-**Commands** (in `.claude/commands/`):
-- ✅ `/analyze-existing` - Review existing blog posts
-- ✅ `/research` - Keyword and competitive research
-- ✅ `/write` - Create long-form SEO content
-- ✅ `/rewrite` - Update existing posts
-- ✅ `/optimize` - Final SEO polish
+**Skills** (in `.agents/skills/`):
+- ✅ `$seo-machine-analyze-existing` - Review existing blog posts
+- ✅ `$seo-machine-research` - Keyword and competitive research
+- ✅ `$seo-machine-write` - Create long-form SEO content
+- ✅ `$seo-machine-rewrite` - Update existing posts
+- ✅ `$seo-machine-optimize` - Final SEO polish
 
-**Agents** (in `.claude/agents/`):
+**Specialists** (in `.agents/skills/specialists/`):
 - ✅ `seo-optimizer` - On-page SEO analysis
 - ✅ `meta-creator` - Meta title/description generation
 - ✅ `internal-linker` - Strategic internal linking
@@ -93,18 +93,18 @@ The AI learns your voice and requirements from these files. Fill them in:
 Try a simple workflow to ensure everything works:
 
 ```bash
-# 1. Open the project in Claude Code
-claude-code .
+# 1. Open the project in Codex
+codex .
 
 # 2. Try researching a topic
-/research a topic relevant to your business
+$seo-machine-research a topic relevant to your business
 
-# 3. Review the research brief that gets created in /research
+# 3. Review the research brief that gets created in $seo-machine-research
 
 # 4. Write an article based on the research
-/write a topic relevant to your business
+$seo-machine-write a topic relevant to your business
 
-# 5. Check the drafts folder for your article and agent reports
+# 5. Check the drafts folder for your article and specialist reports
 ```
 
 ### 3. Create GitHub Repository
@@ -116,7 +116,7 @@ To push this to GitHub:
 2. Create repository named "your company-writer"
 3. Don't initialize with README (you already have one)
 4. Copy the repository URL
-5. Run these commands:
+5. Run these skills:
 ```bash
 git remote add origin https://github.com/YOUR-USERNAME/your company-writer.git
 git branch -M main
@@ -142,16 +142,16 @@ gh repo create your company-writer --private --source=. --remote=origin --push
 
 ### Day 2: First Article
 1. Add topic idea to `topics/` folder
-2. Run `/research [topic]`
+2. Run `$seo-machine-research [topic]`
 3. Review research brief
-4. Run `/write [topic]`
-5. Review article and agent reports
+4. Run `$seo-machine-write [topic]`
+5. Review article and specialist reports
 6. Make recommended improvements
-7. Run `/optimize [article]`
+7. Run `$seo-machine-optimize [article]`
 8. Final review and publish
 
 ### Day 3+: Optimize Workflow
-1. Update existing content with `/analyze-existing`
+1. Update existing content with `$seo-machine-analyze-existing`
 2. Batch research multiple topics
 3. Create content calendar in `topics/`
 4. Build out topic clusters systematically
@@ -162,12 +162,12 @@ gh repo create your company-writer --private --source=. --remote=origin --push
 - **Example quality = Output quality**: The better your examples in `writing-examples.md`, the better the AI writes
 - **Be specific in context files**: Vague guidelines = generic output
 - **Review and iterate**: First drafts are starting points, not final products
-- **Use the agents**: They catch things you might miss
+- **Use the specialists**: They catch things you might miss
 
 ### Common Mistakes to Avoid
 - ❌ Skipping context file configuration
 - ❌ Not providing writing examples
-- ❌ Ignoring agent recommendations
+- ❌ Ignoring specialist recommendations
 - ❌ Publishing without optimization
 - ❌ Forgetting to update internal-links-map
 
@@ -175,7 +175,7 @@ gh repo create your company-writer --private --source=. --remote=origin --push
 - Research multiple topics in one session
 - Use consistent article structure
 - Address high-priority fixes first
-- Let agents handle analysis
+- Let specialists handle analysis
 - Build reusable templates
 
 ## Support & Resources
@@ -183,27 +183,27 @@ gh repo create your company-writer --private --source=. --remote=origin --push
 ### Documentation
 - **README.md** - Complete workflow guide
 - **CONTRIBUTING.md** - How to improve the system
-- Each command and agent file has detailed instructions
+- Each skill and specialist file has detailed instructions
 
 ### Troubleshooting
 - Review the "Troubleshooting" section in README.md
 - Check that context files are properly filled in
-- Ensure Claude Code is up to date
+- Ensure Codex is up to date
 
 ### Updates
 - Star the GitHub repo for updates
-- Check for new commands/agents periodically
+- Check for new skills/specialists periodically
 - Share improvements back to the project
 
 ## Quick Reference
 
-### Most Common Commands
+### Most Common Skills
 ```bash
-/research [topic]          # Research before writing
-/write [topic]             # Create new article
-/analyze-existing [URL]    # Audit existing post
-/rewrite [topic]           # Update existing content
-/optimize [file]           # Final polish
+$seo-machine-research [topic]          # Research before writing
+$seo-machine-write [topic]             # Create new article
+$seo-machine-analyze-existing [URL]    # Audit existing post
+$seo-machine-rewrite [topic]           # Update existing content
+$seo-machine-optimize [file]           # Final polish
 ```
 
 ### File Locations

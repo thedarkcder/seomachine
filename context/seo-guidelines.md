@@ -406,7 +406,7 @@ Podcast hosting is a service that stores your audio files and generates an RSS f
 
 ## AI Search Optimization (GEO/AICO)
 
-AI search engines (ChatGPT, Perplexity, Gemini, Claude) are now a significant traffic and recommendation channel. 5-15% of website traffic can come from AI sources, and 90% of buyers consult AI before purchase decisions. These guidelines ensure your content performs in both traditional Google search AND AI-generated answers.
+AI search engines (ChatGPT, Perplexity, Gemini, and similar tools) are now a significant traffic and recommendation channel. 5-15% of website traffic can come from AI sources, and 90% of buyers consult AI before purchase decisions. These guidelines ensure your content performs in both traditional Google search AND AI-generated answers.
 
 ### Direct-Answer-First Principle
 
