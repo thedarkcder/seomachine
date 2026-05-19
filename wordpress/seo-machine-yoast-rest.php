@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: SEO Machine - Yoast REST API Support
- * Description: Exposes Yoast SEO meta fields via the WordPress REST API for the SEO Machine tool.
+ * Description: Legacy REST fallback that exposes Yoast SEO meta fields for SEO Machine when WordPress MCP is unavailable.
  * Version: 1.0
  * Author: SEO Machine
  *

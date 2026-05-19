@@ -12,7 +12,7 @@ SEO Machine is an open-source Codex workspace for creating SEO-optimized blog co
 pip install -r data_sources/requirements.txt
 ```
 
-API credentials are configured in `data_sources/config/.env` (GA4, GSC, DataForSEO, WordPress). GA4 service account credentials go in `credentials/ga4-credentials.json`.
+API credentials are configured in `data_sources/config/.env` for GA4, GSC, and DataForSEO. GA4 service account credentials go in `credentials/ga4-credentials.json`. WordPress publishing uses the WordPress MCP adapter as the primary integration.
 
 ## Skills
 
@@ -24,7 +24,7 @@ All workflow and specialist skills are defined in `.agents/skills/` and invoked 
 - `$seo-machine-optimize [file]` - Final SEO polish pass
 - `$seo-machine-analyze-existing [URL or file]` - Content health audit
 - `$seo-machine-performance-review` - Analytics-driven content priorities
-- `$seo-machine-publish-draft [file]` - Publish to WordPress via REST API
+- `$seo-machine-publish-draft [file]` - Create WordPress draft content via MCP
 - `$seo-machine-article [topic]` - Simplified article creation
 - `$seo-machine-cluster [topic]` - Build complete topic cluster strategy with pillar + supporting articles + linking map
 - `$seo-machine-priorities` - Content prioritization matrix
@@ -56,7 +56,7 @@ Located in `data_sources/modules/`. The Content Analyzer chains:
 - `google_search_console.py` - Rankings and impressions
 - `dataforseo.py` - SERP positions, keyword metrics
 - `data_aggregator.py` - Combines all sources into unified analytics
-- `wordpress_publisher.py` - Publishes to WordPress with Yoast SEO metadata
+- `wordpress_publisher.py` - Legacy REST fallback for WordPress draft publishing
 
 ### Opportunity Scoring
 
@@ -102,4 +102,4 @@ Rewrites go to `rewrites/`. Landing pages go to `landing-pages/`. Audits go to `
 
 ## WordPress Integration
 
-Publishing uses the WordPress REST API with a custom MU-plugin (`wordpress/seo-machine-yoast-rest.php`) that exposes Yoast SEO fields. Articles are published in WordPress block format (HTML comments in Markdown files).
+Publishing is MCP-first. Use the official `wordpress/mcp-adapter` package to expose WordPress abilities to Codex. Local sites can use WP-CLI STDIO with `wp mcp-adapter serve --server=mcp-adapter-default-server`; remote sites can use the `@automattic/mcp-wordpress-remote` proxy against `/wp-json/mcp/mcp-adapter-default-server`. The Python REST publisher and Yoast REST helper files remain fallback-only.

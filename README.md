@@ -244,7 +244,7 @@ Final SEO optimization pass before publishing.
 ---
 
 ### `$seo-machine-publish-draft [file]`
-Publish article to WordPress via REST API with Yoast SEO metadata.
+Create a WordPress draft through the connected WordPress MCP server, with SEO metadata where the site exposes it.
 
 ---
 
@@ -575,19 +575,21 @@ python3 test_dataforseo.py
 
 ### WordPress Integration
 
-Publishing uses the WordPress REST API with a custom MU-plugin that exposes Yoast SEO fields.
+Publishing is MCP-first through the official [`wordpress/mcp-adapter`](https://github.com/wordpress/mcp-adapter). SEO Machine prepares the draft payload, then Codex uses the connected WordPress MCP tools to create draft posts or pages.
 
 **Setup**:
-1. Install `wordpress/seo-machine-yoast-rest.php` as an MU-plugin on your WordPress site
-2. Add `wordpress/functions-snippet.php` to your theme's functions.php
-3. Configure WordPress credentials in `.env`:
+1. Install and initialize `wordpress/mcp-adapter` on your WordPress site.
+2. For local WordPress development, connect Codex with WP-CLI STDIO:
+   ```bash
+   wp mcp-adapter serve --server=mcp-adapter-default-server
    ```
-   WP_URL=https://yoursite.com
-   WP_USERNAME=your_username
-   WP_APP_PASSWORD=your_application_password
+3. For remote WordPress sites, use the `@automattic/mcp-wordpress-remote` proxy against:
+   ```text
+   https://yoursite.com/wp-json/mcp/mcp-adapter-default-server
    ```
+4. Use the legacy REST publisher only as a fallback when MCP is unavailable.
 
-See `wordpress/README.md` for detailed setup instructions.
+See `wordpress/README.md` for fallback REST notes.
 
 See `data_sources/README.md` for analytics setup instructions.
 

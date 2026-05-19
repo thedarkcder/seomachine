@@ -12,7 +12,7 @@ This is a Codex-native SEO Machine skill. Use it directly with `$seo-machine-pub
 - Read relevant files in `context/` before producing strategy, research, copy, metadata, or publishing payloads.
 - Run any named specialist reviews by using the matching `seo-machine-*-specialist` skill instructions in `.agents/skills/`.
 - Use `data_sources/modules/` and the root Python scripts when a workflow calls for deterministic analysis.
-- If GA4, Search Console, DataForSEO, WordPress, or other credentials are missing, complete the offline parts and clearly list skipped live-data checks.
+- If GA4, Search Console, DataForSEO, or the WordPress MCP connection is missing, complete the offline parts and clearly list skipped live-data checks.
 - Save artifacts in the output directories named by the workflow.
 
 Publishes a draft article from this project to WordPress as a Draft, with all SEO metadata auto-populated.
@@ -46,8 +46,8 @@ $seo-machine-publish-draft drafts/product-comparison.md --type compare
 
 1. **Parses the draft file** - Extracts all metadata from frontmatter
 2. **Converts Markdown to HTML** - Formats content for WordPress
-3. **Creates WordPress draft** - Posts via REST API with status "draft"
-4. **Sets Yoast SEO fields**:
+3. **Creates WordPress draft** - Uses the connected WordPress MCP server to create content with status "draft"
+4. **Sets SEO fields when the MCP server exposes them**:
    - SEO Title (from Meta Title)
    - Meta Description
    - Focus Keyphrase (from Target Keyword)
@@ -67,22 +67,30 @@ $seo-machine-publish-draft drafts/product-comparison.md --type compare
 | Tags | Post Tags |
 | Content | Post Content (HTML) |
 
-## Required Environment Variables
+## WordPress MCP Requirement
 
-These must be set in `.env`:
-```
-WORDPRESS_URL=https://yoursite.com
-WORDPRESS_USERNAME=your-username
-WORDPRESS_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
+Publishing is MCP-first. Configure WordPress through the official `wordpress/mcp-adapter` package and connect Codex to that MCP server before using this skill.
+
+Recommended connection options:
+
+- **Local WordPress site**: use WP-CLI STDIO with `wp mcp-adapter serve --server=mcp-adapter-default-server`.
+- **Remote WordPress site**: use `@automattic/mcp-wordpress-remote` to proxy from Codex's STDIO MCP connection to the site's HTTP endpoint.
+
+Default MCP endpoint:
+
+```text
+/wp-json/mcp/mcp-adapter-default-server
 ```
 
-### Getting an Application Password
-1. Log into WordPress Admin
-2. Go to Users > Your Profile
-3. Scroll to "Application Passwords"
-4. Enter a name (e.g., "SEO Machine")
-5. Click "Add New Application Password"
-6. Copy the generated password to your `.env` file
+Remote HTTP proxy environment:
+
+```text
+WP_API_URL=https://yoursite.com/wp-json/mcp/mcp-adapter-default-server
+WP_API_USERNAME=your-username
+WP_API_PASSWORD=your-application-password
+```
+
+Application Passwords are used by the remote MCP proxy, not by SEO Machine directly.
 
 ## Process
 
@@ -93,17 +101,29 @@ When you run this skill:
 - Parse metadata and content
 - Display extracted fields for confirmation
 
-### Step 2: Publish to WordPress
-Run the WordPress publisher:
-```bash
-cd /path/to/seomachine
-python data_sources/modules/wordpress_publisher.py "$FILE_PATH" --type "$POST_TYPE"
-```
+### Step 2: Publish via WordPress MCP
 
-Where `$POST_TYPE` is `post`, `page`, or a custom post type.
+Use the connected WordPress MCP tools to:
+
+1. Discover available WordPress abilities/tools.
+2. Create a draft item for `$POST_TYPE` (`post`, `page`, or a supported custom type).
+3. Set title, slug, excerpt, content HTML, status `draft`, taxonomy terms, and SEO metadata where supported.
+4. Never publish directly; always create or update drafts only.
+
+If the default MCP server exposes abilities through `mcp-adapter/execute-ability`, first discover the relevant create/update abilities, then execute them with the prepared payload.
 
 ### Step 3: Confirm Success
 Display the WordPress edit URL so the user can review and publish.
+
+## Fallback: REST Publisher
+
+If WordPress MCP is unavailable but the user explicitly wants a fallback, use the legacy Python REST publisher:
+
+```bash
+python data_sources/modules/wordpress_publisher.py "$FILE_PATH" --type "$POST_TYPE"
+```
+
+This fallback requires `WORDPRESS_URL`, `WORDPRESS_USERNAME`, and `WORDPRESS_APP_PASSWORD` in the environment or `.env`.
 
 ## Optional: Add Categories/Tags
 
@@ -118,20 +138,20 @@ Multiple categories/tags are comma-separated.
 
 ## Troubleshooting
 
-### "WORDPRESS_URL must be set"
-Add credentials to `.env` file. See Required Environment Variables above.
+### "No WordPress MCP tools available"
+Configure the WordPress MCP adapter and restart Codex so the MCP tools are available.
 
 ### "401 Unauthorized"
-- Verify username is correct
-- Regenerate Application Password
-- Ensure user has permission to create posts
+- For remote MCP, verify `WP_API_USERNAME` and `WP_API_PASSWORD`
+- Regenerate the WordPress Application Password used by the MCP proxy
+- Ensure the user has permission to create drafts
 
-### "Could not find category"
-The category will be created automatically if it doesn't exist.
+### "SEO fields not available"
+Use the WordPress MCP abilities that your site exposes. If Yoast metadata is not exposed through MCP, set title, excerpt, slug, and content first, then finish SEO fields in WordPress admin or use the REST fallback.
 
 ## Notes
 
 - Posts are always created as **drafts** (never published automatically)
 - The H1 heading from the article becomes the WordPress post title
 - Images/media are not uploaded - only text content is transferred
-- You can run this skill multiple times on the same file (creates new drafts each time)
+- Prefer updating an existing draft through MCP when one already exists; otherwise create a new draft

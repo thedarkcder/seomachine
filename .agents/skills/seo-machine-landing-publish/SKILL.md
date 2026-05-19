@@ -12,7 +12,7 @@ This is a Codex-native SEO Machine skill. Use it directly with `$seo-machine-lan
 - Read relevant files in `context/` before producing strategy, research, copy, metadata, or publishing payloads.
 - Run any named specialist reviews by using the matching `seo-machine-*-specialist` skill instructions in `.agents/skills/`.
 - Use `data_sources/modules/` and the root Python scripts when a workflow calls for deterministic analysis.
-- If GA4, Search Console, DataForSEO, WordPress, or other credentials are missing, complete the offline parts and clearly list skipped live-data checks.
+- If GA4, Search Console, DataForSEO, or the WordPress MCP connection is missing, complete the offline parts and clearly list skipped live-data checks.
 - Save artifacts in the output directories named by the workflow.
 
 Use this skill to publish landing pages to WordPress as pages (not blog posts).
@@ -34,8 +34,8 @@ Use this skill to publish landing pages to WordPress as pages (not blog posts).
 1. Validates the landing page file
 2. Checks landing page score (must be ≥75)
 3. Parses markdown and metadata
-4. Creates WordPress page via REST API
-5. Sets Yoast SEO fields
+4. Creates WordPress page via the connected WordPress MCP server
+5. Sets SEO fields when the MCP server exposes them
 6. Returns edit URL for review
 
 ## Prerequisites
@@ -99,44 +99,53 @@ if score['overall_score'] < 75:
 3. Convert markdown to HTML
 4. Prepare Yoast SEO fields
 
-### Step 4: WordPress API Call
+### Step 4: WordPress MCP Call
 
-Uses existing `wordpress_publisher.py` module:
+Use the connected WordPress MCP tools to:
 
-```python
-from data_sources.modules.wordpress_publisher import WordPressPublisher
+1. Discover available WordPress abilities/tools.
+2. Create a WordPress page draft.
+3. Set title, slug, excerpt, content HTML, status `draft`, template, and SEO metadata where supported.
+4. Return the WordPress edit URL for user review.
 
-publisher = WordPressPublisher()
-
-result = publisher.create_page(
-    title=headline,
-    content=html_content,
-    slug=url_slug,
-    status='draft',  # Always create as draft first
-    meta={
-        'yoast_wpseo_title': meta_title,
-        'yoast_wpseo_metadesc': meta_description,
-        'yoast_wpseo_focuskw': target_keyword,
-    }
-)
-```
+If the default MCP server exposes abilities through `mcp-adapter/execute-ability`, first discover the relevant create/update abilities, then execute them with the prepared page payload.
 
 ### Step 5: Additional Settings
 
 **For PPC Pages (--noindex):**
-```python
-# Set noindex via Yoast
-meta['yoast_wpseo_meta-robots-noindex'] = '1'
-```
+Set noindex metadata through MCP if the site exposes that ability. If no MCP ability supports it, note that the user must set noindex in WordPress/Yoast before publishing.
 
 **For Page Templates:**
-```python
-# Set page template
-result = publisher.update_page(
-    page_id=page_id,
-    template=template_slug
-)
+Set the page template through MCP if supported. If not supported, include the requested template slug in the final handoff.
+
+## WordPress MCP Requirement
+
+Publishing is MCP-first. Configure WordPress through the official `wordpress/mcp-adapter` package and connect Codex to that MCP server before using this skill.
+
+Recommended connection options:
+
+- **Local WordPress site**: use WP-CLI STDIO with `wp mcp-adapter serve --server=mcp-adapter-default-server`.
+- **Remote WordPress site**: use `@automattic/mcp-wordpress-remote` to proxy from Codex's STDIO MCP connection to the site's HTTP endpoint.
+
+Default MCP endpoint:
+
+```text
+/wp-json/mcp/mcp-adapter-default-server
 ```
+
+Remote HTTP proxy environment:
+
+```text
+WP_API_URL=https://yoursite.com/wp-json/mcp/mcp-adapter-default-server
+WP_API_USERNAME=your-username
+WP_API_PASSWORD=your-application-password
+```
+
+Application Passwords are used by the remote MCP proxy, not by SEO Machine directly.
+
+## Fallback: REST Publisher
+
+If WordPress MCP is unavailable but the user explicitly wants a fallback, use `data_sources/modules/wordpress_publisher.py`. This legacy fallback requires direct WordPress REST credentials in the environment or `.env`.
 
 ## Output
 
