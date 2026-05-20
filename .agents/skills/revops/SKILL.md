@@ -14,6 +14,7 @@ Use this skill as the entry point for revenue operations workflows. RevOps skill
 - Use marketing skills for campaign copy, CRO, paid ads, social, and content strategy.
 - RevOps outputs should be decision-ready operating plans, field definitions, dashboards, or checklists.
 - Do not mutate CRM records, automations, dashboards, or campaign settings without explicit user approval and an available tool.
+- For HubSpot custom property creation, route to `$revops-crm-governance`; that skill uses `scripts/create_hubspot_revops_properties.py` after a dry run and explicit approval.
 
 ## Command Reference
 
