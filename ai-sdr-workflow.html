@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI SDR Workflow</title>
+  <style>
+    :root {
+      --bg: #f6f5f1;
+      --ink: #171717;
+      --muted: #66645f;
+      --line: #d8d3c7;
+      --panel: #ffffff;
+      --accent: #0f766e;
+      --accent-dark: #0b4f4a;
+      --sales: #2563eb;
+      --marketing: #b45309;
+      --revops: #0f766e;
+      --tooling: #7c3aed;
+      --shadow: 0 18px 55px rgba(23, 23, 23, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .shell {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+      gap: 0;
+    }
+
+    .map {
+      padding: 34px;
+      border-right: 1px solid var(--line);
+      overflow: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(32px, 5vw, 72px);
+      line-height: 0.94;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .summary {
+      margin: 0;
+      max-width: 360px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .lanes {
+      display: grid;
+      gap: 12px;
+      min-width: 860px;
+    }
+
+    .lane {
+      display: grid;
+      grid-template-columns: 128px repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .lane-label {
+      min-height: 104px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .node {
+      position: relative;
+      min-height: 104px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--ink);
+      text-align: left;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .node:hover {
+      transform: translateY(-2px);
+      border-color: rgba(15, 118, 110, 0.46);
+      box-shadow: 0 10px 28px rgba(23, 23, 23, 0.08);
+    }
+
+    .node.active {
+      background: var(--panel);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .node::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -13px;
+      width: 13px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .lane .node:last-child::after {
+      display: none;
+    }
+
+    .node-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    .node[data-lane="revops"] .dot {
+      background: var(--revops);
+    }
+
+    .node[data-lane="sales"] .dot {
+      background: var(--sales);
+    }
+
+    .node[data-lane="marketing"] .dot {
+      background: var(--marketing);
+    }
+
+    .node[data-lane="tooling"] .dot {
+      background: var(--tooling);
+    }
+
+    .node-title {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+      font-weight: 720;
+    }
+
+    .node-subtitle {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .inspector {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+      background: #111412;
+      color: #f7f4ed;
+      padding: 28px;
+    }
+
+    .inspector-header {
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(247, 244, 237, 0.16);
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: rgba(247, 244, 237, 0.62);
+      font-size: 12px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .stage-copy {
+      margin: 12px 0 0;
+      color: rgba(247, 244, 237, 0.7);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 22px 0;
+    }
+
+    .meta-item {
+      padding: 12px;
+      border: 1px solid rgba(247, 244, 237, 0.14);
+      border-radius: 8px;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 6px;
+      color: rgba(247, 244, 237, 0.48);
+      font-size: 11px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-value {
+      color: #f7f4ed;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .prompt-wrap {
+      min-height: 0;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .prompt-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .prompt-title {
+      color: rgba(247, 244, 237, 0.62);
+      font-size: 12px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .copy-button {
+      min-height: 38px;
+      border: 1px solid rgba(247, 244, 237, 0.2);
+      border-radius: 8px;
+      background: #f7f4ed;
+      color: #111412;
+      padding: 0 13px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 720;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .copy-button:hover {
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    pre {
+      flex: 1;
+      min-height: 260px;
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+      border: 1px solid rgba(247, 244, 237, 0.14);
+      border-radius: 8px;
+      background: rgba(247, 244, 237, 0.05);
+      padding: 16px;
+      color: #f7f4ed;
+      font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .footer-note {
+      margin: 14px 0 0;
+      color: rgba(247, 244, 237, 0.52);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1080px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .map {
+        border-right: 0;
+      }
+
+      .inspector {
+        position: relative;
+        height: auto;
+        min-height: 620px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .map,
+      .inspector {
+        padding: 20px;
+      }
+
+      .lanes {
+        min-width: 0;
+      }
+
+      .lane {
+        grid-template-columns: 1fr;
+      }
+
+      .lane-label {
+        min-height: 36px;
+        padding: 10px 0 0;
+      }
+
+      .node::after {
+        top: auto;
+        right: auto;
+        bottom: -13px;
+        left: 26px;
+        width: 1px;
+        height: 13px;
+      }
+
+      .meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="map" aria-label="AI SDR workflow map">
+      <div class="topbar">
+        <h1>Sales and marketing workflow</h1>
+        <p class="summary">Click a stage to see the generic prompt. The flow starts with RevOps rules, moves through account sourcing and enrichment, then turns sales insight into marketing and outbound assets.</p>
+      </div>
+
+      <div class="lanes" id="flow" aria-label="Workflow stages"></div>
+    </section>
+
+    <aside class="inspector" aria-label="Selected stage prompt">
+      <div class="inspector-header">
+        <p class="eyebrow" id="stageLane">RevOps</p>
+        <h2 id="stageTitle">Lifecycle stages</h2>
+        <p class="stage-copy" id="stageDescription">Define the funnel language and operating rules before sales or marketing work begins.</p>
+      </div>
+
+      <div class="meta" aria-label="Stage details">
+        <div class="meta-item">
+          <span class="meta-label">Skill</span>
+          <span class="meta-value" id="stageSkill">$revops-lifecycle-stages</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Output</span>
+          <span class="meta-value" id="stageOutput">Lifecycle definitions</span>
+        </div>
+      </div>
+
+      <div class="prompt-wrap">
+        <div class="prompt-top">
+          <span class="prompt-title">Prompt</span>
+          <button class="copy-button" id="copyPrompt" type="button">Copy prompt</button>
+        </div>
+        <pre id="promptText"></pre>
+        <p class="footer-note">Prompts are intentionally generic. Replace bracketed context with your actual product, ICP, market, and approval rules.</p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const stages = [
+      {
+        lane: "RevOps",
+        laneKey: "revops",
+        step: "01",
+        title: "Lifecycle stages",
+        description: "Define funnel stages, owners, entry criteria, exit criteria, and disqualification rules.",
+        skill: "$revops-lifecycle-stages",
+        output: "Lifecycle definitions",
+        prompt: `$revops-lifecycle-stages
+
+Do the lifecycle setup work for our sales and marketing workflow.
+
+Context:
+- CRM/source of truth: HubSpot
+- Working model: HubSpot-only unless I approve another layer
+- Business: [describe product/service]
+- Target customer: [describe ICP]
+
+Create lifecycle definitions for Lead, MQL, SQL, Opportunity, Customer, Nurture, and Disqualified.
+
+Output only:
+- lifecycle stage table
+- owner for each stage
+- entry criteria
+- exit criteria
+- required HubSpot fields
+- disqualification reasons
+- blockers requiring my input`
+      },
+      {
+        lane: "RevOps",
+        laneKey: "revops",
+        step: "02",
+        title: "Campaign tracking",
+        description: "Set source, campaign, segment, and reporting rules before creating lists or outreach.",
+        skill: "$revops-campaign-tracking",
+        output: "Tracking rules",
+        prompt: `$revops-campaign-tracking
+
+Create campaign tracking rules for this sales and marketing workflow.
+
+Use HubSpot as the source of truth.
+
+Define:
+- lead source rules
+- source detail rules
+- campaign naming
+- target segment naming
+- owner fields
+- reporting fields
+- what should be updated automatically versus manually reviewed
+
+Do not send emails.
+Do not use Apollo or Bouncer.
+
+Output only:
+- tracking field map
+- naming examples
+- required HubSpot fields
+- proposed HubSpot updates for approval`
+      },
+      {
+        lane: "RevOps",
+        laneKey: "revops",
+        step: "03",
+        title: "CRM governance",
+        description: "Create or confirm the fields and rules that keep HubSpot clean as the workflow runs.",
+        skill: "$revops-crm-governance",
+        output: "Governance checklist",
+        prompt: `$revops-crm-governance
+
+Do the HubSpot CRM governance setup work.
+
+Inspect existing company and contact properties. Use existing fields where they fit.
+
+If HubSpot custom properties are needed, run the property setup script as a dry run first:
+python3 scripts/create_hubspot_revops_properties.py
+
+Show me the planned property changes and ask for approval before applying.
+
+After approval, run:
+python3 scripts/create_hubspot_revops_properties.py --apply
+
+Output only:
+- properties inspected
+- properties already available
+- properties proposed
+- properties created after approval
+- blockers requiring my input`
+      },
+      {
+        lane: "Sales",
+        laneKey: "sales",
+        step: "04",
+        title: "Account source",
+        description: "Find or define more target companies using HubSpot first, public sources second, Apollo last.",
+        skill: "$sales-source-accounts",
+        output: "Target account plan",
+        prompt: `$sales-source-accounts
+
+Find and define more target companies before contact enrichment.
+
+Use this order:
+1. Mine HubSpot for lookalike companies based on our best target accounts.
+2. Use public web research/directories for net-new company names and domains.
+3. Propose Apollo searches only after free sources are exhausted.
+
+Do not use Apollo credits yet.
+Do not use Bouncer yet.
+Do not send emails.
+Ask for approval before adding or updating companies in HubSpot.
+
+Output only:
+- ICP pattern
+- target account segments
+- HubSpot lookalike opportunities
+- public research opportunities
+- proposed Apollo searches for approval`
+      },
+      {
+        lane: "Sales",
+        laneKey: "sales",
+        step: "05",
+        title: "Batch prospect",
+        description: "Clean, exclude, score, and prioritize companies before spending enrichment credits.",
+        skill: "$sales-batch-prospect",
+        output: "Prioritized shortlist",
+        prompt: `$sales-batch-prospect
+
+Run the HubSpot company cleanse and prioritization workflow.
+
+Use existing HubSpot data first.
+Do not use Apollo or Bouncer yet.
+
+Workflow:
+1. Inspect companies and required RevOps fields.
+2. Exclude do-not-contact, open opportunities, customers, competitors, and disqualified accounts.
+3. Score account fit, data completeness, outreach readiness, and priority.
+4. Create a high-priority shortlist for approval.
+5. Propose HubSpot updates before applying them.
+
+Output only:
+- companies inspected
+- exclusions by reason
+- top target shortlist
+- proposed HubSpot updates
+- blockers requiring my input`
+      },
+      {
+        lane: "Sales",
+        laneKey: "sales",
+        step: "06",
+        title: "Approve shortlist",
+        description: "Gate the workflow before Apollo or Bouncer credits are used.",
+        skill: "$sales-approval-queue",
+        output: "Approved target list",
+        prompt: `$sales-approval-queue
+
+Prepare the high-priority company shortlist for approval.
+
+Do not use Apollo or Bouncer until I approve the shortlist.
+Do not send emails.
+
+For each company show:
+- company name
+- HubSpot link or ID
+- segment
+- ICP score
+- reason for inclusion
+- risk or missing data
+- proposed next action
+
+Output only:
+- approved / needs review / blocked table
+- exact companies proposed for Apollo enrichment
+- approval question`
+      },
+      {
+        lane: "Tooling",
+        laneKey: "tooling",
+        step: "07",
+        title: "Apollo enrich",
+        description: "Find decision makers only for approved high-priority companies.",
+        skill: "$sales-enrich-contacts",
+        output: "Contact candidates",
+        prompt: `$sales-enrich-contacts
+
+Use Apollo only for the approved high-priority companies.
+
+Goal:
+Find the right contacts and buying committee roles without wasting free-plan credits.
+
+For each approved company, identify:
+- economic buyer
+- champion
+- technical evaluator
+- user buyer
+- likely blocker if relevant
+
+Create or update HubSpot contacts only after showing proposed changes and getting approval.
+
+Do not use Bouncer yet.
+Do not send emails.
+
+Output only:
+- contacts found
+- confidence level
+- proposed HubSpot contact updates
+- contacts needing email verification`
+      },
+      {
+        lane: "Tooling",
+        laneKey: "tooling",
+        step: "08",
+        title: "Bouncer verify",
+        description: "Verify emails only after contacts are approved for the campaign.",
+        skill: "$sales-verify-emails",
+        output: "Verification status",
+        prompt: `$sales-verify-emails
+
+Use Bouncer only for approved contacts from approved high-priority companies.
+
+Classify each email as:
+- deliverable
+- risky
+- undeliverable
+- unknown
+- suppressed
+
+Update HubSpot contact verification fields only after showing proposed changes and getting approval.
+
+Do not send emails.
+
+Output only:
+- contacts checked
+- verification results
+- risky or blocked contacts
+- proposed HubSpot updates`
+      },
+      {
+        lane: "Sales",
+        laneKey: "sales",
+        step: "09",
+        title: "Score and personalize",
+        description: "Turn company and contact evidence into scores, hooks, and message angles.",
+        skill: "$sales-lead-score + $sales-personalization",
+        output: "Hooks and scorecards",
+        prompt: `$sales-lead-score
+$sales-personalization
+
+Score the approved companies and contacts, then create personalization hooks.
+
+Use HubSpot data, Apollo enrichment, and Bouncer verification status.
+
+For each approved contact, create:
+- account fit score
+- contact fit score
+- outreach readiness
+- pain hypothesis
+- personalization hook
+- safe first-line option
+- recommended message angle
+
+Do not send emails.
+
+Output only:
+- score summary
+- personalization table
+- proposed HubSpot updates
+- blockers requiring my input`
+      },
+      {
+        lane: "Marketing",
+        laneKey: "marketing",
+        step: "10",
+        title: "Marketing assets",
+        description: "Use sales insight to create segment pages, nurture, social, or campaign copy.",
+        skill: "$copywriting / $email-sequence / $seo-machine-landing-write",
+        output: "Campaign assets",
+        prompt: `$copywriting
+
+Use the approved sales segments and pain hypotheses to create marketing campaign assets.
+
+Create generic assets for:
+- direct outbound support
+- nurture for not-ready accounts
+- landing page angle
+- social posts or campaign copy
+
+Use the segment, buyer persona, pain hypothesis, and objections from the sales workflow.
+
+Do not send emails.
+Do not publish pages.
+
+Output only:
+- campaign message framework
+- landing page outline
+- nurture email outline
+- social/content angles
+- sales enablement notes`
+      },
+      {
+        lane: "Sales",
+        laneKey: "sales",
+        step: "11",
+        title: "Build cadence",
+        description: "Create the outbound sequence, follow-ups, and approval queue.",
+        skill: "$sales-build-cadence",
+        output: "Send-ready drafts",
+        prompt: `$sales-build-cadence
+
+Build a multi-touch outbound cadence for the approved high-priority contacts.
+
+Use:
+- segment
+- buyer persona
+- pain hypothesis
+- personalization hooks
+- Bouncer verification status
+- approved marketing message framework
+
+Create:
+- email 1
+- follow-up 1
+- follow-up 2
+- LinkedIn touch if appropriate
+- call note if appropriate
+- approval status
+
+Do not send emails.
+Do not enroll contacts into sequences.
+
+Output only:
+- cadence table
+- message drafts
+- contacts blocked from sending
+- approval queue`
+      },
+      {
+        lane: "RevOps",
+        laneKey: "revops",
+        step: "12",
+        title: "Handoff and reporting",
+        description: "Define ownership, next actions, dashboards, and what gets written back to HubSpot.",
+        skill: "$revops-sla-handoff + $revops-dashboard-design",
+        output: "Operating report",
+        prompt: `$revops-sla-handoff
+$revops-dashboard-design
+
+Create the handoff and reporting plan for this campaign.
+
+Define:
+- who owns approved contacts
+- response SLA
+- HubSpot next action rules
+- dashboard metrics
+- reporting views
+- what counts as success
+- what gets reviewed weekly
+
+Do not send emails.
+
+Output only:
+- handoff rules
+- dashboard metrics
+- HubSpot update plan
+- weekly review checklist`
+      }
+    ];
+
+    const flow = document.getElementById("flow");
+    const promptText = document.getElementById("promptText");
+    const stageLane = document.getElementById("stageLane");
+    const stageTitle = document.getElementById("stageTitle");
+    const stageDescription = document.getElementById("stageDescription");
+    const stageSkill = document.getElementById("stageSkill");
+    const stageOutput = document.getElementById("stageOutput");
+    const copyPrompt = document.getElementById("copyPrompt");
+
+    const lanes = [
+      { label: "RevOps", keys: ["revops"] },
+      { label: "Sales", keys: ["sales"] },
+      { label: "Tooling", keys: ["tooling"] },
+      { label: "Marketing", keys: ["marketing"] }
+    ];
+
+    function nodeButton(stage, index) {
+      const button = document.createElement("button");
+      button.className = "node";
+      button.type = "button";
+      button.dataset.index = String(index);
+      button.dataset.lane = stage.laneKey;
+      button.innerHTML = `
+        <span class="node-kicker"><span>${stage.step}</span><span class="dot"></span></span>
+        <span class="node-title">${stage.title}</span>
+        <span class="node-subtitle">${stage.description}</span>
+      `;
+      button.addEventListener("click", () => selectStage(index));
+      return button;
+    }
+
+    function renderFlow() {
+      lanes.forEach((lane) => {
+        const laneStages = stages.filter((stage) => lane.keys.includes(stage.laneKey));
+        const row = document.createElement("div");
+        row.className = "lane";
+        const label = document.createElement("div");
+        label.className = "lane-label";
+        label.textContent = lane.label;
+        row.appendChild(label);
+
+        laneStages.forEach((stage) => {
+          row.appendChild(nodeButton(stage, stages.indexOf(stage)));
+        });
+
+        while (row.children.length < 5) {
+          const spacer = document.createElement("div");
+          spacer.setAttribute("aria-hidden", "true");
+          row.appendChild(spacer);
+        }
+
+        flow.appendChild(row);
+      });
+    }
+
+    function selectStage(index) {
+      const stage = stages[index];
+      document.querySelectorAll(".node").forEach((node) => {
+        node.classList.toggle("active", node.dataset.index === String(index));
+      });
+      stageLane.textContent = stage.lane;
+      stageTitle.textContent = stage.title;
+      stageDescription.textContent = stage.description;
+      stageSkill.textContent = stage.skill;
+      stageOutput.textContent = stage.output;
+      promptText.textContent = stage.prompt;
+      copyPrompt.textContent = "Copy prompt";
+    }
+
+    async function copySelectedPrompt() {
+      const text = promptText.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        copyPrompt.textContent = "Copied";
+      } catch (error) {
+        const range = document.createRange();
+        range.selectNodeContents(promptText);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        copyPrompt.textContent = "Selected";
+      }
+      window.setTimeout(() => {
+        copyPrompt.textContent = "Copy prompt";
+      }, 1600);
+    }
+
+    copyPrompt.addEventListener("click", copySelectedPrompt);
+    renderFlow();
+    selectStage(0);
+  </script>
+</body>
+</html>
