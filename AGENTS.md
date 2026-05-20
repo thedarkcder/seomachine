@@ -33,6 +33,9 @@ All workflow and specialist skills are defined in `.agents/skills/` and invoked 
 - `$seo-machine-repurpose [file]` - Adapts article for LinkedIn, Medium, Reddit, Quora distribution
 - `$seo-machine-landing-write`, `$seo-machine-landing-audit`, `$seo-machine-landing-research`, `$seo-machine-landing-publish`, `$seo-machine-landing-competitor` - Landing page skills
 - `$sales` - Router for AI SDR workflows
+- `$sales-source-accounts [ICP]`, `$sales-batch-prospect [list]`, `$sales-enrich-contacts [accounts]`, `$sales-verify-emails [list]` - Pre-outreach SDR operations
+- `$sales-intent-signals [accounts]`, `$sales-lead-score [records]`, `$sales-personalization [prospects]`, `$sales-build-cadence [segment]` - Prioritization, message planning, and cadence design
+- `$sales-deliverability [campaign]`, `$sales-approval-queue [drafts]`, `$sales-crm-fields [workflow]`, `$sales-data-hygiene [list]`, `$sales-lead-routing [rules]`, `$sales-reply-classification [reply]` - Campaign readiness, data operations, routing, and reply handling
 - `$sales-prospect [url]` - Full prospect audit and scored account analysis
 - `$sales-research [url]`, `$sales-contacts [url]`, `$sales-qualify [url]`, `$sales-competitors [url]` - Focused sales intelligence workflows
 - `$sales-outreach [prospect]`, `$sales-followup [prospect]`, `$sales-prep [url]`, `$sales-proposal [client]`, `$sales-objections [topic]` - Sales engagement and deal-support workflows
@@ -48,7 +51,7 @@ Key specialist skills: `seo-machine-content-analyzer-specialist`, `seo-machine-s
 
 ### Sales Namespace
 
-Sales skills use the `sales-*` prefix. Keep them separate from `seo-machine-*` so Codex can select the right workflow. `$sales` is a router/overview skill; specific workflows such as `$sales-prospect` and `$sales-outreach` do the actual work. The `sales-*-specialist` skills provide focused account, contact, opportunity, competitive, and outreach strategy review passes. Sales skills must generate drafts and action plans by default; do not send outreach or mutate CRM records without explicit user approval and an available tool.
+Sales skills use the `sales-*` prefix. Keep them separate from `seo-machine-*` so Codex can select the right workflow. `$sales` is a router/overview skill; specific workflows such as `$sales-prospect` and `$sales-outreach` do the actual work. The AI SDR operations chain is `$sales-source-accounts` -> `$sales-batch-prospect` -> `$sales-enrich-contacts` -> `$sales-verify-emails` -> `$sales-intent-signals` -> `$sales-lead-score` -> `$sales-personalization` -> `$sales-build-cadence` -> `$sales-deliverability` -> `$sales-approval-queue`, with `$sales-crm-fields`, `$sales-data-hygiene`, `$sales-lead-routing`, and `$sales-reply-classification` supporting data and workflow operations. The `sales-*-specialist` skills provide focused account, contact, opportunity, competitive, and outreach strategy review passes. Sales skills must generate drafts and action plans by default; do not send outreach or mutate CRM records without explicit user approval and an available tool.
 
 ### Python Analysis Pipeline
 

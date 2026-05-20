@@ -6,7 +6,7 @@ A specialized Codex workspace for creating long-form, SEO-optimized blog content
 
 SEO Machine is built on Codex and provides:
 - **Codex Skills**: `$seo-machine-research`, `$seo-machine-write`, `$seo-machine-rewrite`, `$seo-machine-analyze-existing`, `$seo-machine-optimize`, `$seo-machine-performance-review`, `$seo-machine-publish-draft`, `$seo-machine-article`, `$seo-machine-priorities`, plus specialized research and landing page skills
-- **AI SDR Skills**: `$sales`, `$sales-prospect`, `$sales-research`, `$sales-qualify`, `$sales-contacts`, `$sales-outreach`, `$sales-followup`, `$sales-prep`, `$sales-proposal`, and sales reporting skills
+- **AI SDR Skills**: `$sales`, account sourcing, batch prospecting, contact enrichment, verification, intent signals, lead scoring, cadence planning, approval queues, prospect research, outreach, follow-up, meeting prep, proposals, and sales reporting skills
 - **Specialist Skills**: Content analyzer, SEO optimization, meta element creation, internal linking, keyword mapping, editor, performance analysis, headline generator, CRO analyst, landing page optimizer
 - **Marketing Skills**: 26 marketing skills for copywriting, CRO, A/B testing, email sequences, pricing strategy, and more
 - **Advanced SEO Analysis**: Search intent detection, keyword density & clustering, content length comparison, readability scoring, SEO quality rating (0-100)
@@ -69,6 +69,15 @@ Sales skills use the `sales-*` namespace and are separate from SEO/content workf
 
 ```text
 $sales-prospect https://example.com        # Full prospect audit
+$sales-source-accounts "B2B SaaS CFOs"     # Account sourcing strategy
+$sales-batch-prospect accounts.csv         # Batch score/prioritize accounts
+$sales-enrich-contacts accounts.csv        # Contact enrichment plan
+$sales-verify-emails contacts.csv          # Email verification/risk pass
+$sales-intent-signals accounts.csv         # Buying signal prioritization
+$sales-lead-score contacts.csv             # Lead/account scorecard
+$sales-personalization contacts.csv        # Hooks and first-line angles
+$sales-build-cadence "Series B SaaS CFOs"  # Multi-touch cadence
+$sales-approval-queue drafts.md            # Human review queue
 $sales-research https://example.com        # Company research
 $sales-qualify https://example.com         # BANT + MEDDIC qualification
 $sales-contacts https://example.com        # Buying committee mapping
@@ -79,7 +88,7 @@ $sales-proposal acme                       # Proposal draft
 $sales-report                              # Pipeline report
 ```
 
-The `$sales` router can also orient broad requests. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool.
+The `$sales` router can also orient broad requests. The full AI SDR operations flow is: source accounts → batch prospect → enrich contacts → verify emails → read intent signals → score leads → personalize → build cadence → check deliverability → approval queue. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool.
 
 ### Creating New Content
 

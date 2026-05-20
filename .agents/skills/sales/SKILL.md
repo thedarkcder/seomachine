@@ -1,6 +1,6 @@
 ---
 name: sales
-description: "Route AI SDR and sales workflow requests in Codex, including prospect research, lead qualification, buying committee mapping, outreach, follow-up, meeting prep, proposals, objections, and sales reports."
+description: "Route AI SDR and sales workflow requests in Codex, including account sourcing, batch prospecting, contact enrichment, email verification, intent signals, lead scoring, buying committee mapping, outreach cadence planning, approval queues, reply handling, meeting prep, proposals, objections, and sales reports."
 ---
 
 # Sales Namespace Router
@@ -11,6 +11,9 @@ Use this Codex skill as the entry point for AI SDR and sales workflows. It route
 
 - Use `$sales-prospect` for full account/prospect analysis.
 - Use `$sales-research`, `$sales-contacts`, `$sales-qualify`, `$sales-competitors`, and `$sales-outreach` for focused tasks.
+- Use `$sales-source-accounts`, `$sales-batch-prospect`, `$sales-enrich-contacts`, `$sales-verify-emails`, `$sales-intent-signals`, and `$sales-lead-score` for pre-outreach SDR operations.
+- Use `$sales-personalization`, `$sales-build-cadence`, `$sales-deliverability`, and `$sales-approval-queue` for campaign readiness.
+- Use `$sales-crm-fields`, `$sales-data-hygiene`, `$sales-lead-routing`, and `$sales-reply-classification` for CRM, data quality, routing, and reply handling.
 - Use `$sales-prep`, `$sales-proposal`, `$sales-followup`, `$sales-objections`, `$sales-report`, and `$sales-report-pdf` for later-stage work.
 - Use the `sales-*-specialist` skills for focused review passes inside prospect analysis.
 - Save sales outputs in the working directory unless the user gives a target folder.
@@ -28,13 +31,28 @@ You are a comprehensive AI sales intelligence and outreach system for Codex. You
 
 | Command | Description | Output |
 |---------|-------------|--------|
+| `$sales-source-accounts <ICP>` | Build target account list strategy | ACCOUNT-SOURCING.md |
+| `$sales-batch-prospect <list>` | Score and prioritize a company/domain list | BATCH-PROSPECTING.md |
 | `$sales-prospect <url>` | Full prospect audit (5 specialist passes) | PROSPECT-ANALYSIS.md |
 | `$sales quick <url>` | 60-second prospect snapshot | Terminal output |
 | `$sales-research <url>` | Company research & firmographics | COMPANY-RESEARCH.md |
 | `$sales-qualify <url>` | Lead qualification (BANT/MEDDIC) | LEAD-QUALIFICATION.md |
 | `$sales-contacts <url>` | Decision maker identification | DECISION-MAKERS.md |
+| `$sales-enrich-contacts <accounts>` | Enrichment plan for contacts and buying roles | CONTACT-ENRICHMENT.md |
+| `$sales-verify-emails <list>` | Email verification and risk classification | EMAIL-VERIFICATION.md |
+| `$sales-intent-signals <accounts>` | Buying signal interpretation and next actions | INTENT-SIGNALS.md |
+| `$sales-lead-score <records>` | Account/contact scorecard | LEAD-SCORES.md |
+| `$sales-buying-committee <account>` | Buying committee map | BUYING-COMMITTEE.md |
+| `$sales-personalization <prospects>` | Personalization hooks and first lines | PERSONALIZATION.md |
+| `$sales-build-cadence <segment>` | Multi-touch outbound cadence | OUTBOUND-CADENCE.md |
+| `$sales-deliverability <campaign>` | Deliverability launch checklist | DELIVERABILITY.md |
+| `$sales-approval-queue <drafts>` | Human review queue for outbound assets | APPROVAL-QUEUE.md |
 | `$sales-outreach <prospect>` | Cold outreach email sequence | OUTREACH-SEQUENCE.md |
 | `$sales-followup <prospect>` | Follow-up email sequence | FOLLOWUP-SEQUENCE.md |
+| `$sales-crm-fields <workflow>` | Canonical CRM field map | CRM-FIELDS.md |
+| `$sales-data-hygiene <list>` | Deduplication and data quality plan | DATA-HYGIENE.md |
+| `$sales-lead-routing <rules>` | Lead assignment and SLA rules | LEAD-ROUTING.md |
+| `$sales-reply-classification <reply>` | Reply category and next action | REPLY-HANDLING.md |
 | `$sales-prep <url>` | Meeting preparation brief | MEETING-PREP.md |
 | `$sales-proposal <client>` | Client proposal generator | CLIENT-PROPOSAL.md |
 | `$sales-objections <topic>` | Objection handling playbook | OBJECTION-PLAYBOOK.md |
@@ -86,6 +104,25 @@ Fast 60-second assessment. Do NOT launch specialist review passes. Instead:
 ### Individual Commands
 For all other commands (`$sales-research`, `$sales-qualify`, etc.), route to the corresponding sub-skill in the matching `.agents/skills/sales-<command>/SKILL.md` file.
 
+### AI SDR Operations Flow
+
+For broad requests like "build an AI SDR campaign" or "find leads and prepare outreach", route through this sequence:
+
+1. `$sales-source-accounts` - define ICP, filters, exclusions, and account tiers
+2. `$sales-batch-prospect` - normalize and prioritize a company/domain list
+3. `$sales-enrich-contacts` - identify and enrich buyer contacts
+4. `$sales-verify-emails` - classify email risk and send readiness
+5. `$sales-intent-signals` - prioritize recent buying triggers
+6. `$sales-lead-score` - rank accounts and contacts
+7. `$sales-buying-committee` - map multi-threading strategy for larger accounts
+8. `$sales-personalization` - turn evidence into hooks and message angles
+9. `$sales-build-cadence` - create the multi-touch sequence
+10. `$sales-deliverability` - check launch risk before sending
+11. `$sales-approval-queue` - prepare human review before execution
+12. `$sales-reply-classification` - handle replies and recommended next actions
+
+Use `$sales-crm-fields`, `$sales-data-hygiene`, and `$sales-lead-routing` when the user needs a source-of-truth schema, cleanup plan, owner assignment, or routing logic.
+
 ## Business Context Detection
 
 Before running any analysis, detect the prospect's company type:
@@ -116,6 +153,10 @@ Save detailed outputs to markdown files in the current directory:
 ## Cross-Skill References
 
 Many skills work together:
+- `$sales-source-accounts` -> `$sales-batch-prospect` -> `$sales-enrich-contacts` -> `$sales-verify-emails` -> `$sales-lead-score` forms the pre-outreach SDR operations chain
+- `$sales-intent-signals` and `$sales-personalization` improve prioritization and messaging before `$sales-build-cadence`
+- `$sales-deliverability` and `$sales-approval-queue` gate campaign launch readiness
+- `$sales-crm-fields`, `$sales-data-hygiene`, `$sales-lead-routing`, and `$sales-reply-classification` support operational follow-through
 - `$sales-prospect` calls all specialist review passes → produces comprehensive prospect analysis
 - `$sales-outreach` benefits from `$sales-research` and `$sales-contacts` data if available
 - `$sales-prep` incorporates all available analysis for the prospect
