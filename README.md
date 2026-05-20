@@ -7,6 +7,7 @@ A specialized Codex workspace for creating long-form, SEO-optimized blog content
 SEO Machine is built on Codex and provides:
 - **Codex Skills**: `$seo-machine-research`, `$seo-machine-write`, `$seo-machine-rewrite`, `$seo-machine-analyze-existing`, `$seo-machine-optimize`, `$seo-machine-performance-review`, `$seo-machine-publish-draft`, `$seo-machine-article`, `$seo-machine-priorities`, plus specialized research and landing page skills
 - **AI SDR Skills**: `$sales`, account sourcing, batch prospecting, contact enrichment, verification, intent signals, lead scoring, cadence planning, approval queues, prospect research, outreach, follow-up, meeting prep, proposals, and sales reporting skills
+- **RevOps Skills**: `$revops`, lifecycle stages, campaign tracking, SLA handoffs, dashboard design, and CRM governance for sales/marketing operations
 - **Specialist Skills**: Content analyzer, SEO optimization, meta element creation, internal linking, keyword mapping, editor, performance analysis, headline generator, CRO analyst, landing page optimizer
 - **Marketing Skills**: 26 marketing skills for copywriting, CRO, A/B testing, email sequences, pricing strategy, and more
 - **Advanced SEO Analysis**: Search intent detection, keyword density & clustering, content length comparison, readability scoring, SEO quality rating (0-100)
@@ -89,6 +90,20 @@ $sales-report                              # Pipeline report
 ```
 
 The `$sales` router can also orient broad requests. The full AI SDR operations flow is: source accounts → batch prospect → enrich contacts → verify emails → read intent signals → score leads → personalize → build cadence → check deliverability → approval queue. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool.
+
+### RevOps Workflows
+
+RevOps skills use the `revops-*` namespace and define the operating layer around sales and marketing.
+
+```text
+$revops-lifecycle-stages       # Funnel/lifecycle definitions
+$revops-campaign-tracking      # Source, UTM, and campaign naming rules
+$revops-sla-handoff            # Marketing/SDR/AE/CS handoff rules
+$revops-dashboard-design       # Revenue dashboard specifications
+$revops-crm-governance         # CRM field, automation, and data quality rules
+```
+
+Use `$revops` to orient broad revenue operations requests. These skills produce operating plans and governance recommendations; they do not change CRM records, automations, or dashboards without explicit approval and configured tooling.
 
 ### Creating New Content
 
