@@ -119,13 +119,13 @@
     }
 
     .playbook {
-      min-height: 104px;
+      min-height: 72px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.72);
       color: var(--ink);
       text-align: left;
-      padding: 12px;
+      padding: 11px;
       cursor: pointer;
       transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
     }
@@ -154,7 +154,7 @@
 
     .playbook-kicker {
       display: block;
-      margin-bottom: 9px;
+      margin-bottom: 8px;
       color: var(--muted);
       font-size: 10px;
       font-weight: 760;
@@ -164,21 +164,14 @@
 
     .playbook-title {
       display: block;
-      margin-bottom: 7px;
+      margin-bottom: 0;
       font-size: 14px;
       line-height: 1.08;
       font-weight: 760;
     }
 
     .playbook-detail {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.28;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      display: none;
     }
 
     .lane {
@@ -189,7 +182,7 @@
     }
 
     .lane-label {
-      min-height: 104px;
+      min-height: 74px;
       display: flex;
       align-items: center;
       padding: 0 16px;
@@ -203,13 +196,13 @@
 
     .node {
       position: relative;
-      min-height: 104px;
+      min-height: 74px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.68);
       color: var(--ink);
       text-align: left;
-      padding: 14px;
+      padding: 12px;
       cursor: pointer;
       transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
     }
@@ -293,17 +286,13 @@
 
     .node-title {
       display: block;
-      font-size: 17px;
+      font-size: 15px;
       line-height: 1.1;
       font-weight: 720;
     }
 
     .node-subtitle {
-      display: block;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
+      display: none;
     }
 
     .inspector {
@@ -585,7 +574,7 @@
       }
 
       .playbook {
-        min-height: 112px;
+        min-height: 76px;
       }
 
       .section-label {
@@ -1314,7 +1303,6 @@ Output only:
       button.innerHTML = `
         <span class="playbook-kicker">${playbook.problem}</span>
         <span class="playbook-title">${playbook.title}</span>
-        <span class="playbook-detail">${playbook.when}</span>
       `;
       button.addEventListener("click", () => selectPlaybook(index));
       return button;
@@ -1336,7 +1324,6 @@ Output only:
       button.innerHTML = `
         <span class="node-kicker"><span>${stage.step}</span><span class="dot"></span></span>
         <span class="node-title">${stage.title}</span>
-        <span class="node-subtitle">${stage.description}</span>
       `;
       button.addEventListener("click", () => selectStage(index));
       return button;
