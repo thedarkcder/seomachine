@@ -80,7 +80,8 @@
 
     .lanes {
       display: grid;
-      gap: 12px;
+      grid-template-columns: repeat(6, minmax(132px, 1fr));
+      gap: 10px;
       min-width: 860px;
     }
 
@@ -174,26 +175,6 @@
       display: none;
     }
 
-    .lane {
-      display: grid;
-      grid-template-columns: 128px repeat(4, minmax(150px, 1fr));
-      gap: 12px;
-      align-items: stretch;
-    }
-
-    .lane-label {
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 760;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
     .node {
       position: relative;
       min-height: 74px;
@@ -243,10 +224,6 @@
       background: var(--line);
     }
 
-    .lane .node:last-child::after {
-      display: none;
-    }
-
     .node-kicker {
       display: flex;
       align-items: center;
@@ -258,6 +235,16 @@
       font-weight: 760;
       text-transform: uppercase;
       letter-spacing: 0.07em;
+    }
+
+    .node-lane {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
     .dot {
@@ -565,6 +552,7 @@
       }
 
       .lanes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         min-width: 0;
       }
 
@@ -583,22 +571,8 @@
         min-width: 0;
       }
 
-      .lane {
-        grid-template-columns: 1fr;
-      }
-
-      .lane-label {
-        min-height: 36px;
-        padding: 10px 0 0;
-      }
-
       .node::after {
-        top: auto;
-        right: auto;
-        bottom: -13px;
-        left: 26px;
-        width: 1px;
-        height: 13px;
+        display: none;
       }
 
       .meta {
@@ -607,6 +581,10 @@
     }
 
     @media (max-width: 480px) {
+      .lanes {
+        grid-template-columns: 1fr;
+      }
+
       .playbooks {
         grid-template-columns: 1fr;
       }
@@ -1287,13 +1265,6 @@ Output only:
     let activeCompletionId = "stage-01";
     let completedItems = loadCompletedItems();
 
-    const lanes = [
-      { label: "RevOps", keys: ["revops"] },
-      { label: "Sales", keys: ["sales"] },
-      { label: "Tooling", keys: ["tooling"] },
-      { label: "Marketing", keys: ["marketing"] }
-    ];
-
     function playbookButton(playbook, index) {
       const button = document.createElement("button");
       button.className = "playbook";
@@ -1324,32 +1295,15 @@ Output only:
       button.innerHTML = `
         <span class="node-kicker"><span>${stage.step}</span><span class="dot"></span></span>
         <span class="node-title">${stage.title}</span>
+        <span class="node-lane">${stage.lane}</span>
       `;
       button.addEventListener("click", () => selectStage(index));
       return button;
     }
 
     function renderFlow() {
-      lanes.forEach((lane) => {
-        const laneStages = stages.filter((stage) => lane.keys.includes(stage.laneKey));
-        const row = document.createElement("div");
-        row.className = "lane";
-        const label = document.createElement("div");
-        label.className = "lane-label";
-        label.textContent = lane.label;
-        row.appendChild(label);
-
-        laneStages.forEach((stage) => {
-          row.appendChild(nodeButton(stage, stages.indexOf(stage)));
-        });
-
-        while (row.children.length < 5) {
-          const spacer = document.createElement("div");
-          spacer.setAttribute("aria-hidden", "true");
-          row.appendChild(spacer);
-        }
-
-        flow.appendChild(row);
+      stages.forEach((stage, index) => {
+        flow.appendChild(nodeButton(stage, index));
       });
     }
 
