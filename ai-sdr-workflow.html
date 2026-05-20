@@ -80,6 +80,63 @@
       min-width: 860px;
     }
 
+    .playbooks {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+      min-width: 860px;
+    }
+
+    .playbook {
+      min-height: 154px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink);
+      text-align: left;
+      padding: 16px;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .playbook:hover {
+      transform: translateY(-2px);
+      border-color: rgba(15, 118, 110, 0.46);
+      box-shadow: 0 10px 28px rgba(23, 23, 23, 0.08);
+    }
+
+    .playbook.active {
+      background: var(--panel);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .playbook-kicker {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .playbook-title {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      line-height: 1.08;
+      font-weight: 760;
+    }
+
+    .playbook-detail {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
     .lane {
       display: grid;
       grid-template-columns: 128px repeat(4, minmax(150px, 1fr));
@@ -353,6 +410,11 @@
         min-width: 0;
       }
 
+      .playbooks {
+        grid-template-columns: 1fr;
+        min-width: 0;
+      }
+
       .lane {
         grid-template-columns: 1fr;
       }
@@ -384,6 +446,8 @@
         <h1>Sales and marketing workflow</h1>
         <p class="summary">Click a stage to see the generic prompt. The flow starts with RevOps rules, moves through account sourcing and enrichment, then turns sales insight into marketing and outbound assets.</p>
       </div>
+
+      <div class="playbooks" id="playbooks" aria-label="Workflow playbooks"></div>
 
       <div class="lanes" id="flow" aria-label="Workflow stages"></div>
     </section>
@@ -418,6 +482,222 @@
   </main>
 
   <script>
+    const playbooks = [
+      {
+        problem: "HubSpot is messy",
+        when: "Use when the CRM has many companies but inconsistent fields, unclear statuses, and no reliable campaign readiness view.",
+        title: "CRM Cleanse First",
+        skill: "$revops + $sales-batch-prospect",
+        output: "Clean operating dataset",
+        description: "Clean and govern HubSpot before spending Apollo or Bouncer credits.",
+        prompt: `$revops
+$sales-batch-prospect
+
+Problem:
+HubSpot has many companies, but the data is not clean enough to run outbound reliably.
+
+When to use:
+Use this when you need to clean, score, and organize existing CRM companies before finding contacts or writing outreach.
+
+Workflow:
+1. Inspect HubSpot company, contact, deal, owner, lifecycle, and governance fields.
+2. Confirm required RevOps fields exist.
+3. Exclude customers, open opportunities, competitors, do-not-contact, and disqualified accounts.
+4. Flag duplicates, missing domains, missing owner, stale records, and missing lifecycle fields.
+5. Score companies using existing HubSpot data only.
+6. Create a high-priority shortlist.
+7. Propose HubSpot updates and ask for approval before applying.
+
+Do not use Apollo.
+Do not use Bouncer.
+Do not send emails.
+
+Output only:
+- companies inspected
+- excluded companies by reason
+- data quality summary
+- high-priority shortlist
+- proposed HubSpot updates
+- blockers requiring my input`
+      },
+      {
+        problem: "Need more target accounts",
+        when: "Use when HubSpot does not have enough good-fit companies, or you need to expand a target segment without burning Apollo credits.",
+        title: "Find More Companies",
+        skill: "$sales-source-accounts",
+        output: "Account sourcing plan",
+        description: "Mine HubSpot and public sources first; use Apollo only after approval.",
+        prompt: `$sales-source-accounts
+
+Problem:
+We need more good-fit companies before contact enrichment.
+
+When to use:
+Use this when the current HubSpot target account pool is too small or you want to expand into a defined segment.
+
+Workflow:
+1. Inspect the best existing target accounts in HubSpot.
+2. Identify ICP patterns: industry, size, geography, segment, pain fit, buyer persona.
+3. Mine HubSpot for lookalike companies.
+4. Use public web research and directories for net-new company names and domains.
+5. Create target account segments.
+6. Propose Apollo searches only after free sources are exhausted.
+7. Ask for approval before adding or updating HubSpot companies.
+
+Do not use Apollo credits until approved.
+Do not use Bouncer.
+Do not send emails.
+
+Output only:
+- ICP pattern
+- HubSpot lookalikes
+- public-source account ideas
+- proposed net-new companies
+- proposed Apollo searches
+- approval question`
+      },
+      {
+        problem: "Have approved accounts, need contacts",
+        when: "Use after you have a high-priority company shortlist and want to find decision makers without wasting free-plan credits.",
+        title: "Approved Account Enrichment",
+        skill: "$sales-enrich-contacts + $sales-verify-emails",
+        output: "Verified contact set",
+        description: "Use Apollo and Bouncer only for approved companies and contacts.",
+        prompt: `$sales-enrich-contacts
+$sales-verify-emails
+
+Problem:
+We have approved high-priority companies but need the right people and verified emails.
+
+When to use:
+Use this only after the target account shortlist has been approved.
+
+Workflow:
+1. Use Apollo only for approved high-priority companies.
+2. Find likely economic buyers, champions, evaluators, user buyers, and blockers.
+3. Propose HubSpot contact creates/updates and ask for approval.
+4. After approval, verify approved contact emails with Bouncer.
+5. Update HubSpot verification fields after approval.
+6. Mark blocked, risky, or invalid contacts clearly.
+
+Do not use Apollo on unapproved companies.
+Do not use Bouncer on unapproved contacts.
+Do not send emails.
+
+Output only:
+- contacts found
+- buying committee role
+- Apollo confidence
+- Bouncer verification status
+- proposed HubSpot updates
+- blocked contacts`
+      },
+      {
+        problem: "Need outbound copy",
+        when: "Use when accounts and contacts are approved and verified, but messaging and follow-up steps do not exist yet.",
+        title: "Outbound Campaign Pack",
+        skill: "$sales-personalization + $sales-build-cadence",
+        output: "Approval-ready outreach",
+        description: "Create hooks, emails, follow-ups, and approval status without sending anything.",
+        prompt: `$sales-personalization
+$sales-build-cadence
+$sales-approval-queue
+
+Problem:
+We have approved contacts, but need send-ready outreach drafts and an approval queue.
+
+When to use:
+Use this after accounts are scored, contacts are enriched, and emails are verified.
+
+Workflow:
+1. Create account and contact-level personalization hooks.
+2. Write safe first-line options and pain hypotheses.
+3. Build a multi-touch cadence for the approved segment.
+4. Flag contacts that are blocked, risky, or not ready.
+5. Create an approval queue in HubSpot.
+6. Propose HubSpot updates and ask for approval.
+
+Do not send emails.
+Do not enroll contacts into sequences.
+
+Output only:
+- personalization hooks
+- outbound cadence
+- approval statuses
+- blocked contacts
+- proposed HubSpot updates`
+      },
+      {
+        problem: "Marketing needs campaign assets",
+        when: "Use when sales has identified segments and pain points, and marketing needs pages, nurture, social, or campaign copy.",
+        title: "Sales Insight To Marketing",
+        skill: "$copywriting + $email-sequence + $seo-machine-landing-write",
+        output: "Marketing asset brief",
+        description: "Turn sales segments into marketing copy and nurture assets.",
+        prompt: `$copywriting
+$email-sequence
+$seo-machine-landing-write
+
+Problem:
+Sales has identified useful segments and pain points, but marketing assets do not exist yet.
+
+When to use:
+Use this when you need landing page copy, nurture emails, social posts, or sales enablement copy based on sales research.
+
+Workflow:
+1. Use the approved target segments from HubSpot.
+2. Extract common pains, objections, buyer roles, and message angles.
+3. Create a campaign message framework.
+4. Draft landing page structure.
+5. Draft nurture email sequence.
+6. Draft social/content angles.
+7. Keep all assets as drafts until approved.
+
+Do not publish pages.
+Do not send emails.
+
+Output only:
+- campaign message framework
+- landing page outline
+- nurture sequence
+- social/content angles
+- sales enablement notes`
+      },
+      {
+        problem: "Need operating visibility",
+        when: "Use after the workflow is running and you need ownership, follow-up rules, dashboards, and weekly review rhythm.",
+        title: "Handoff And Reporting",
+        skill: "$revops-sla-handoff + $revops-dashboard-design",
+        output: "Operating rhythm",
+        description: "Define who owns what, what gets tracked, and how performance is reviewed.",
+        prompt: `$revops-sla-handoff
+$revops-dashboard-design
+
+Problem:
+The workflow exists, but ownership, reporting, and review cadence are unclear.
+
+When to use:
+Use this once companies, contacts, and campaigns are moving through HubSpot and the team needs operational control.
+
+Workflow:
+1. Define owner for each lifecycle and campaign state.
+2. Define response SLAs.
+3. Define next-action rules.
+4. Define dashboard metrics.
+5. Define weekly review questions.
+6. Define what gets updated in HubSpot.
+
+Do not send emails.
+
+Output only:
+- handoff rules
+- SLA table
+- dashboard metrics
+- weekly review checklist
+- proposed HubSpot updates`
+      }
+    ];
+
     const stages = [
       {
         lane: "RevOps",
@@ -790,6 +1070,7 @@ Output only:
     ];
 
     const flow = document.getElementById("flow");
+    const playbookGrid = document.getElementById("playbooks");
     const promptText = document.getElementById("promptText");
     const stageLane = document.getElementById("stageLane");
     const stageTitle = document.getElementById("stageTitle");
@@ -804,6 +1085,26 @@ Output only:
       { label: "Tooling", keys: ["tooling"] },
       { label: "Marketing", keys: ["marketing"] }
     ];
+
+    function playbookButton(playbook, index) {
+      const button = document.createElement("button");
+      button.className = "playbook";
+      button.type = "button";
+      button.dataset.playbookIndex = String(index);
+      button.innerHTML = `
+        <span class="playbook-kicker">${playbook.problem}</span>
+        <span class="playbook-title">${playbook.title}</span>
+        <span class="playbook-detail">${playbook.when}</span>
+      `;
+      button.addEventListener("click", () => selectPlaybook(index));
+      return button;
+    }
+
+    function renderPlaybooks() {
+      playbooks.forEach((playbook, index) => {
+        playbookGrid.appendChild(playbookButton(playbook, index));
+      });
+    }
 
     function nodeButton(stage, index) {
       const button = document.createElement("button");
@@ -849,12 +1150,32 @@ Output only:
       document.querySelectorAll(".node").forEach((node) => {
         node.classList.toggle("active", node.dataset.index === String(index));
       });
+      document.querySelectorAll(".playbook").forEach((playbook) => {
+        playbook.classList.remove("active");
+      });
       stageLane.textContent = stage.lane;
       stageTitle.textContent = stage.title;
       stageDescription.textContent = stage.description;
       stageSkill.textContent = stage.skill;
       stageOutput.textContent = stage.output;
       promptText.textContent = stage.prompt;
+      copyPrompt.textContent = "Copy prompt";
+    }
+
+    function selectPlaybook(index) {
+      const playbook = playbooks[index];
+      document.querySelectorAll(".node").forEach((node) => {
+        node.classList.remove("active");
+      });
+      document.querySelectorAll(".playbook").forEach((button) => {
+        button.classList.toggle("active", button.dataset.playbookIndex === String(index));
+      });
+      stageLane.textContent = "Playbook";
+      stageTitle.textContent = playbook.title;
+      stageDescription.textContent = `${playbook.problem}. ${playbook.description}`;
+      stageSkill.textContent = playbook.skill;
+      stageOutput.textContent = playbook.output;
+      promptText.textContent = playbook.prompt;
       copyPrompt.textContent = "Copy prompt";
     }
 
@@ -877,6 +1198,7 @@ Output only:
     }
 
     copyPrompt.addEventListener("click", copySelectedPrompt);
+    renderPlaybooks();
     renderFlow();
     selectStage(0);
   </script>
