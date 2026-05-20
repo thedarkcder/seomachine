@@ -80,8 +80,7 @@
 
     .lanes {
       display: grid;
-      grid-template-columns: repeat(6, minmax(132px, 1fr));
-      gap: 10px;
+      gap: 8px;
       min-width: 860px;
     }
 
@@ -175,9 +174,37 @@
       display: none;
     }
 
+    .lane {
+      display: grid;
+      grid-template-columns: 102px repeat(12, minmax(72px, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .lane-label {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 780;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .lane-slot {
+      min-height: 68px;
+    }
+
+    .lane-slot.empty {
+      border-top: 1px solid rgba(216, 211, 199, 0.55);
+    }
+
     .node {
       position: relative;
-      min-height: 74px;
+      min-height: 68px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.68);
@@ -218,10 +245,14 @@
       content: "";
       position: absolute;
       top: 50%;
-      right: -13px;
-      width: 13px;
+      right: -9px;
+      width: 9px;
       height: 1px;
       background: var(--line);
+    }
+
+    .node.end-of-row::after {
+      display: none;
     }
 
     .node-kicker {
@@ -235,16 +266,6 @@
       font-weight: 760;
       text-transform: uppercase;
       letter-spacing: 0.07em;
-    }
-
-    .node-lane {
-      display: block;
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 760;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
     }
 
     .dot {
@@ -552,7 +573,6 @@
       }
 
       .lanes {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         min-width: 0;
       }
 
@@ -571,6 +591,23 @@
         min-width: 0;
       }
 
+      .lane {
+        grid-template-columns: 1fr;
+      }
+
+      .lane-label {
+        min-height: 34px;
+        padding: 10px 0 0;
+      }
+
+      .lane-slot {
+        min-height: 0;
+      }
+
+      .lane-slot.empty {
+        display: none;
+      }
+
       .node::after {
         display: none;
       }
@@ -581,10 +618,6 @@
     }
 
     @media (max-width: 480px) {
-      .lanes {
-        grid-template-columns: 1fr;
-      }
-
       .playbooks {
         grid-template-columns: 1fr;
       }
@@ -1295,15 +1328,43 @@ Output only:
       button.innerHTML = `
         <span class="node-kicker"><span>${stage.step}</span><span class="dot"></span></span>
         <span class="node-title">${stage.title}</span>
-        <span class="node-lane">${stage.lane}</span>
       `;
       button.addEventListener("click", () => selectStage(index));
       return button;
     }
 
     function renderFlow() {
-      stages.forEach((stage, index) => {
-        flow.appendChild(nodeButton(stage, index));
+      const laneOrder = [
+        { label: "RevOps", key: "revops" },
+        { label: "Sales", key: "sales" },
+        { label: "Tooling", key: "tooling" },
+        { label: "Marketing", key: "marketing" }
+      ];
+
+      laneOrder.forEach((lane) => {
+        const row = document.createElement("div");
+        row.className = "lane";
+        const label = document.createElement("div");
+        label.className = "lane-label";
+        label.textContent = lane.label;
+        row.appendChild(label);
+
+        stages.forEach((stage, index) => {
+          const slot = document.createElement("div");
+          slot.className = "lane-slot";
+          if (stage.laneKey === lane.key) {
+            const node = nodeButton(stage, index);
+            if (stage.step === "12" || stage.step === "11") {
+              node.classList.add("end-of-row");
+            }
+            slot.appendChild(node);
+          } else {
+            slot.classList.add("empty");
+          }
+          row.appendChild(slot);
+        });
+
+        flow.appendChild(row);
       });
     }
 
