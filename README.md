@@ -105,6 +105,24 @@ $revops-crm-governance         # CRM field, automation, and data quality rules
 
 Use `$revops` to orient broad revenue operations requests. These skills produce operating plans and governance recommendations; they do not change CRM records, automations, or dashboards without explicit approval and configured tooling.
 
+To create the minimal HubSpot custom properties for a HubSpot-only workflow, add a private app token to `.env`:
+
+```bash
+HUBSPOT_PRIVATE_APP_TOKEN=pat-your-token
+```
+
+Then run a dry run first:
+
+```bash
+python3 scripts/create_hubspot_revops_properties.py
+```
+
+Create missing properties after reviewing the dry run:
+
+```bash
+python3 scripts/create_hubspot_revops_properties.py --apply
+```
+
 ### Creating New Content
 
 #### 1. Start with Research
