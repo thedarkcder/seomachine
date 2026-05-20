@@ -43,6 +43,10 @@
       gap: 0;
     }
 
+    .shell.panel-closed {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .map {
       padding: 34px;
       border-right: 1px solid var(--line);
@@ -82,20 +86,46 @@
 
     .playbooks {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
       margin-bottom: 28px;
       min-width: 860px;
     }
 
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-width: 860px;
+      margin: 0 0 10px;
+      padding-top: 4px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-label-title {
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 780;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .section-label-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
     .playbook {
-      min-height: 154px;
+      min-height: 104px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.72);
       color: var(--ink);
       text-align: left;
-      padding: 16px;
+      padding: 12px;
       cursor: pointer;
       transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
     }
@@ -114,9 +144,9 @@
 
     .playbook-kicker {
       display: block;
-      margin-bottom: 14px;
+      margin-bottom: 9px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 760;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -124,8 +154,8 @@
 
     .playbook-title {
       display: block;
-      margin-bottom: 10px;
-      font-size: 18px;
+      margin-bottom: 7px;
+      font-size: 14px;
       line-height: 1.08;
       font-weight: 760;
     }
@@ -133,8 +163,12 @@
     .playbook-detail {
       display: block;
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
+      font-size: 11px;
+      line-height: 1.28;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .lane {
@@ -257,6 +291,60 @@
       background: #111412;
       color: #f7f4ed;
       padding: 28px;
+    }
+
+    .shell.panel-closed .inspector {
+      display: none;
+    }
+
+    .panel-toggle {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 0 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 760;
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .shell.panel-closed .panel-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .inspector-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .close-panel {
+      min-height: 34px;
+      border: 1px solid rgba(247, 244, 237, 0.18);
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(247, 244, 237, 0.82);
+      padding: 0 11px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 760;
+      transition: background 160ms ease, color 160ms ease;
+    }
+
+    .close-panel:hover {
+      background: rgba(247, 244, 237, 0.08);
+      color: #ffffff;
     }
 
     .inspector-header {
@@ -411,7 +499,17 @@
       }
 
       .playbooks {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        min-width: 0;
+      }
+
+      .playbook {
+        min-height: 112px;
+      }
+
+      .section-label {
+        align-items: flex-start;
+        flex-direction: column;
         min-width: 0;
       }
 
@@ -437,22 +535,40 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @media (max-width: 480px) {
+      .playbooks {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <main class="shell">
+  <main class="shell" id="shell">
     <section class="map" aria-label="AI SDR workflow map">
       <div class="topbar">
         <h1>Sales and marketing workflow</h1>
         <p class="summary">Click a stage to see the generic prompt. The flow starts with RevOps rules, moves through account sourcing and enrichment, then turns sales insight into marketing and outbound assets.</p>
       </div>
 
+      <div class="section-label" aria-label="Playbook section">
+        <span class="section-label-title">Playbooks</span>
+        <p class="section-label-copy">Choose one when you know the problem but not the exact stage.</p>
+      </div>
       <div class="playbooks" id="playbooks" aria-label="Workflow playbooks"></div>
 
+      <div class="section-label" aria-label="Stage map section">
+        <span class="section-label-title">Stage map</span>
+        <p class="section-label-copy">Use individual nodes when you want one precise step and prompt.</p>
+      </div>
       <div class="lanes" id="flow" aria-label="Workflow stages"></div>
     </section>
 
     <aside class="inspector" aria-label="Selected stage prompt">
+      <div class="inspector-actions">
+        <p class="eyebrow">Prompt panel</p>
+        <button class="close-panel" id="closePanel" type="button">Close</button>
+      </div>
       <div class="inspector-header">
         <p class="eyebrow" id="stageLane">RevOps</p>
         <h2 id="stageTitle">Lifecycle stages</h2>
@@ -479,6 +595,7 @@
         <p class="footer-note">Prompts are intentionally generic. Replace bracketed context with your actual product, ICP, market, and approval rules.</p>
       </div>
     </aside>
+    <button class="panel-toggle" id="openPanel" type="button">Open prompt</button>
   </main>
 
   <script>
@@ -1070,6 +1187,7 @@ Output only:
     ];
 
     const flow = document.getElementById("flow");
+    const shell = document.getElementById("shell");
     const playbookGrid = document.getElementById("playbooks");
     const promptText = document.getElementById("promptText");
     const stageLane = document.getElementById("stageLane");
@@ -1078,6 +1196,8 @@ Output only:
     const stageSkill = document.getElementById("stageSkill");
     const stageOutput = document.getElementById("stageOutput");
     const copyPrompt = document.getElementById("copyPrompt");
+    const closePanel = document.getElementById("closePanel");
+    const openPanel = document.getElementById("openPanel");
 
     const lanes = [
       { label: "RevOps", keys: ["revops"] },
@@ -1146,6 +1266,7 @@ Output only:
     }
 
     function selectStage(index) {
+      openPromptPanel();
       const stage = stages[index];
       document.querySelectorAll(".node").forEach((node) => {
         node.classList.toggle("active", node.dataset.index === String(index));
@@ -1163,6 +1284,7 @@ Output only:
     }
 
     function selectPlaybook(index) {
+      openPromptPanel();
       const playbook = playbooks[index];
       document.querySelectorAll(".node").forEach((node) => {
         node.classList.remove("active");
@@ -1197,7 +1319,17 @@ Output only:
       }, 1600);
     }
 
+    function closePromptPanel() {
+      shell.classList.add("panel-closed");
+    }
+
+    function openPromptPanel() {
+      shell.classList.remove("panel-closed");
+    }
+
     copyPrompt.addEventListener("click", copySelectedPrompt);
+    closePanel.addEventListener("click", closePromptPanel);
+    openPanel.addEventListener("click", openPromptPanel);
     renderPlaybooks();
     renderFlow();
     selectStage(0);
