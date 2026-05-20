@@ -4,7 +4,7 @@ This file provides guidance to Codex when working with code in this repository.
 
 ## Project Overview
 
-SEO Machine is an open-source Codex workspace for creating SEO-optimized blog content. It combines Codex skills, specialist skills, and Python-based analytics to research, write, optimize, and publish articles for any business.
+SEO Machine is an open-source Codex workspace for SEO content and AI SDR workflows. It combines Codex skills, specialist skills, and Python-based analytics to research, write, optimize, publish, qualify prospects, generate outreach, and prepare sales assets.
 
 ## Setup
 
@@ -32,6 +32,16 @@ All workflow and specialist skills are defined in `.agents/skills/` and invoked 
 - `$seo-machine-research-ai-citations [topic]` - AI citation audit: generates prompts, clusters them, audits which sources AI cites
 - `$seo-machine-repurpose [file]` - Adapts article for LinkedIn, Medium, Reddit, Quora distribution
 - `$seo-machine-landing-write`, `$seo-machine-landing-audit`, `$seo-machine-landing-research`, `$seo-machine-landing-publish`, `$seo-machine-landing-competitor` - Landing page skills
+- `$sales` - Router for AI SDR workflows
+- `$sales-source-accounts [ICP]`, `$sales-batch-prospect [list]`, `$sales-enrich-contacts [accounts]`, `$sales-verify-emails [list]` - Pre-outreach SDR operations
+- `$sales-intent-signals [accounts]`, `$sales-lead-score [records]`, `$sales-personalization [prospects]`, `$sales-build-cadence [segment]` - Prioritization, message planning, and cadence design
+- `$sales-deliverability [campaign]`, `$sales-approval-queue [drafts]`, `$sales-crm-fields [workflow]`, `$sales-data-hygiene [list]`, `$sales-lead-routing [rules]`, `$sales-reply-classification [reply]` - Campaign readiness, data operations, routing, and reply handling
+- `$sales-prospect [url]` - Full prospect audit and scored account analysis
+- `$sales-research [url]`, `$sales-contacts [url]`, `$sales-qualify [url]`, `$sales-competitors [url]` - Focused sales intelligence workflows
+- `$sales-outreach [prospect]`, `$sales-followup [prospect]`, `$sales-prep [url]`, `$sales-proposal [client]`, `$sales-objections [topic]` - Sales engagement and deal-support workflows
+- `$sales-report`, `$sales-report-pdf` - Sales pipeline reporting workflows
+- `$revops` - Router for revenue operations workflows
+- `$revops-lifecycle-stages`, `$revops-campaign-tracking`, `$revops-sla-handoff`, `$revops-dashboard-design`, `$revops-crm-governance` - RevOps operating model, measurement, handoff, dashboard, and CRM governance workflows
 
 ## Architecture
 
@@ -40,6 +50,14 @@ All workflow and specialist skills are defined in `.agents/skills/` and invoked 
 **Workflow skills** (`.agents/skills/seo-machine-*`) orchestrate work. **Specialist skills** (`.agents/skills/seo-machine-*-specialist`) provide focused review passes. After `$seo-machine-write`, these specialists auto-run: SEO Optimizer, Meta Creator, Internal Linker, Keyword Mapper.
 
 Key specialist skills: `seo-machine-content-analyzer-specialist`, `seo-machine-seo-optimizer-specialist`, `seo-machine-meta-creator-specialist`, `seo-machine-internal-linker-specialist`, `seo-machine-keyword-mapper-specialist`, `seo-machine-editor-specialist`, `seo-machine-headline-generator-specialist`, `seo-machine-cro-analyst-specialist`, `seo-machine-performance-specialist`, `seo-machine-cluster-strategist-specialist`.
+
+### Sales Namespace
+
+Sales skills use the `sales-*` prefix. Keep them separate from `seo-machine-*` so Codex can select the right workflow. `$sales` is a router/overview skill; specific workflows such as `$sales-prospect` and `$sales-outreach` do the actual work. The AI SDR operations chain is `$sales-source-accounts` -> `$sales-batch-prospect` -> `$sales-enrich-contacts` -> `$sales-verify-emails` -> `$sales-intent-signals` -> `$sales-lead-score` -> `$sales-personalization` -> `$sales-build-cadence` -> `$sales-deliverability` -> `$sales-approval-queue`, with `$sales-crm-fields`, `$sales-data-hygiene`, `$sales-lead-routing`, and `$sales-reply-classification` supporting data and workflow operations. The `sales-*-specialist` skills provide focused account, contact, opportunity, competitive, and outreach strategy review passes. Sales skills must generate drafts and action plans by default; do not send outreach or mutate CRM records without explicit user approval and an available tool.
+
+### RevOps Namespace
+
+RevOps skills use the `revops-*` prefix. Keep them separate from `sales-*` because they define sales and marketing operations rather than executing prospecting or outreach. `$revops` is the router/overview skill. The lean RevOps chain is `$revops-lifecycle-stages` -> `$revops-campaign-tracking` -> `$revops-sla-handoff` -> `$revops-dashboard-design` -> `$revops-crm-governance`. RevOps skills should produce operating plans, schemas, definitions, dashboards, and governance checklists by default; do not mutate CRM records, automations, dashboards, or campaign settings without explicit user approval and an available tool.
 
 ### Python Analysis Pipeline
 
