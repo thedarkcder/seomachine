@@ -31,6 +31,15 @@ Prioritize signals by recency, relevance, and proximity to a buying event:
    - affected account or contact
    - why it matters for the user's offer
 
+   Prefer account-specific signals over category assumptions. Useful public signals include:
+   - news articles
+   - press releases
+   - company blog/resources
+   - YouTube videos, webinars, podcasts, or conference talks
+   - job posts and hiring pages
+   - LinkedIn/company social posts when available through permissioned tools
+   - regulatory listings, directory listings, partner pages, marketplace profiles, awards, or case studies
+
 2. Score signal quality:
    - recency: fresh beats stale
    - relevance: tied to the problem the product solves
@@ -47,10 +56,11 @@ Prioritize signals by recency, relevance, and proximity to a buying event:
 4. Messaging rule:
    - use signals to inform timing and angle
    - avoid wording that feels invasive, such as directly naming private intent data
+   - do not convert a private or inferred signal into a factual personalization line unless it is public and source-backed
 
 ## Output
 
 Create a signal assessment table:
 
-| account | signal | date | strength | likely pain | recommended angle | next action |
-|---|---|---|---|---|---|---|
+| account | signal | date | source | strength | likely pain | why this matters | recommended angle | next action |
+|---|---|---|---|---|---|---|---|---|

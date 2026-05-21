@@ -25,6 +25,11 @@ Default to Level 3 for Tier 1 and Tier 2 cold outbound. Use Level 2 only for low
    - relevant proof point
    - reason now
 
+   Separate hooks into:
+   - Account-level hook: sourced evidence about the company, such as a news item, blog post, video, hiring signal, regulatory listing, partnership, product/service page, award, or expansion.
+   - Contact-level hook: sourced evidence about the person, such as a post, article, talk, interview, role change, or public profile detail.
+   - ICP-level hook: segment or persona assumption only. This is usable for lower-priority campaigns, but it is not deep personalization.
+
 2. Convert hooks into useful assets:
    - first-line options
    - pain hypothesis
@@ -38,12 +43,14 @@ Default to Level 3 for Tier 1 and Tier 2 cold outbound. Use Level 2 only for low
    - not fake familiarity
    - not a generic compliment
    - source-backed where factual
+   - never treat "approved target account" or "matches ICP" as the personalization reason
+   - if no account-level or contact-level source is found, mark personalization depth as ICP-only
 
 ## Output
 
 Create a personalization table:
 
-| prospect | hook | first line | pain hypothesis | value angle | confidence |
-|---|---|---|---|---|---|
+| prospect | personalization depth | hook | source | first line | pain hypothesis | value angle | confidence |
+|---|---|---|---|---|---|---|---|
 
 If facts are uncertain, mark the hook as low confidence and provide a safer generic alternative.

@@ -335,6 +335,21 @@ Extract the 5 most important insights for the sales team. Each insight should:
 - Include the specific source/evidence
 - Include a recommendation on how to use the insight
 
+### 4.4 Why This Account Matters
+
+Create a concise account narrative that can be stored in HubSpot and used by sales without rereading the full research file. This is not the same as ICP fit or approval status.
+
+The narrative must include:
+
+- a 1-2 sentence researched reason this company is on the list
+- the strongest public evidence found, with source and date when available
+- a problem hypothesis tied to the evidence
+- a "why now" trigger if one exists
+- the recommended buyer persona
+- research confidence: High, Medium, Low, or ICP-only
+
+If the only evidence is segment/category fit, say `ICP-only` and recommend more account research before personalization.
+
 ---
 
 ## Output Format: COMPANY-RESEARCH.md
@@ -420,6 +435,20 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 1. **[Strength]** — [Evidence]. *Sales implication: [how to use this]*
 2. **[Strength]** — [Evidence]. *Sales implication: [how to use this]*
 3. **[Strength]** — [Evidence]. *Sales implication: [how to use this]*
+
+## Why This Account Matters
+
+**Account reason:** [Specific researched reason this company deserves attention. Do not write "approved target account" or "matches ICP" as the reason.]
+
+**Evidence:** [Source-backed evidence: news/blog/video/company page/regulatory listing/directory/profile, with URL or source name and date if available.]
+
+**Problem hypothesis:** [The likely business problem or opportunity inferred from the evidence.]
+
+**Why now:** [Recent trigger or reason this is timely. If none found, state "No clear current trigger found."]
+
+**Recommended persona:** [Role/persona to research first.]
+
+**Research confidence:** [High/Medium/Low/ICP-only]
 
 ## Risks
 1. **[Risk]** — [Evidence]. *Mitigation: [how to address this]*
