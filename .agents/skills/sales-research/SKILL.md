@@ -456,6 +456,22 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 
 **Research confidence:** [High/Medium/Low/ICP-only]
 
+## Proposed HubSpot Updates
+
+Prepare this section when the user is using HubSpot or asks for CRM updates. This is a review set, not an automatic write.
+
+| field | current value | proposed value | evidence/source | reasoning | confidence | action |
+|---|---|---|---|---|---|---|
+| `account_research_summary` | [current] | [proposed] | [source] | [why this value is accurate] | [level] | [approve_update/needs_edit/skip/manual_review] |
+| `why_this_account` | [current] | [proposed] | [source] | [why this account matters] | [level] | [action] |
+| `problem_hypothesis` | [current] | [proposed] | [source] | [reasoned inference] | [level] | [action] |
+| `problem_evidence` | [current] | [proposed] | [source] | [why this supports the problem hypothesis] | [level] | [action] |
+| `problem_reasoning` | [current] | [proposed] | [source] | [logic plus counterpoint] | [level] | [action] |
+| `problem_confidence` | [current] | [proposed] | [source] | [confidence rationale] | [level] | [action] |
+| `personalization_evidence` | [current] | [proposed] | [source] | [why it is usable for outreach later] | [level] | [action] |
+
+Ask for explicit user approval before writing any proposed HubSpot updates.
+
 ## Risks
 1. **[Risk]** — [Evidence]. *Mitigation: [how to address this]*
 2. **[Risk]** — [Evidence]. *Mitigation: [how to address this]*

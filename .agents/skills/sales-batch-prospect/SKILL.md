@@ -61,6 +61,13 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - send uncertain accounts to `sales-research` or `sales-qualify`
    - send campaign-ready accounts to `sales-build-cadence`
 
+7. Present a HubSpot review set before writes:
+   - show every field that would be created or changed
+   - include current value, proposed value, source evidence, reasoning, and confidence
+   - group records into approve, edit, skip, and manual-review queues
+   - ask for explicit approval before applying any HubSpot updates
+   - after approval, write only the approved records and fields
+
 ## Output
 
 Produce a batch prospecting table with these fields:
@@ -84,3 +91,19 @@ When updating HubSpot, prefer these company-level fields when available:
 - `last_researched_date`
 
 Do not mark a company `contact_enrichment_ready` unless the account has either account insight complete or the user has explicitly approved ICP-only enrichment.
+
+## HubSpot Review Output
+
+Before mutating HubSpot, produce a compact review table:
+
+| company | HubSpot ID | field | current value | proposed value | evidence/source | reasoning | confidence | action |
+|---|---|---|---|---|---|---|---|---|
+
+Allowed actions:
+
+- `approve_update`
+- `needs_edit`
+- `skip`
+- `manual_review`
+
+Ask the user to approve, edit, or reject the proposed changes. Do not update HubSpot from the same step that first proposes the changes.

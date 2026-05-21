@@ -89,7 +89,7 @@ $sales-proposal acme                       # Proposal draft
 $sales-report                              # Pipeline report
 ```
 
-The `$sales` router can also orient broad requests. The full AI SDR operations flow is: source accounts → batch prospect → enrich contacts → verify emails → read intent signals → score leads → personalize → build cadence → check deliverability → approval queue. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool.
+The `$sales` router can also orient broad requests. The full AI SDR operations flow is: source accounts → batch prospect → enrich contacts → verify emails → read intent signals → score leads → personalize → build cadence → check deliverability → approval queue. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool. For HubSpot updates, sales workflows should first produce a reviewable change set showing current value, proposed value, evidence, reasoning, confidence, and action before any write.
 
 ### RevOps Workflows
 

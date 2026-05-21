@@ -451,6 +451,19 @@ Problem awareness level. Current solution satisfaction.
 For each problem hypothesis, include observed evidence, source, reasoning chain,
 counterpoint, severity, confidence, and recommended discovery question.]
 
+### Proposed HubSpot Need Updates
+
+When HubSpot is the source of truth, prepare a review set before writing:
+
+| field | current value | proposed value | evidence/source | reasoning | confidence | action |
+|---|---|---|---|---|---|---|
+| `problem_hypothesis` | [current] | [proposed] | [source] | [reasoned inference] | [level] | [approve_update/needs_edit/skip/manual_review] |
+| `problem_evidence` | [current] | [proposed] | [source] | [observed evidence] | [level] | [action] |
+| `problem_reasoning` | [current] | [proposed] | [source] | [logic plus counterpoint] | [level] | [action] |
+| `problem_confidence` | [current] | [proposed] | [source] | [confidence rationale] | [level] | [action] |
+
+Do not apply these HubSpot updates until the user approves the proposed change set.
+
 ### Timeline Analysis
 [Detailed findings for Timeline dimension. Trigger events, urgency signals,
 buying cycle estimation, seasonal factors.]
