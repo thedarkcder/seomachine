@@ -344,11 +344,13 @@ The narrative must include:
 - a 1-2 sentence researched reason this company is on the list
 - the strongest public evidence found, with source and date when available
 - a problem hypothesis tied to the evidence
+- the reasoning chain from evidence to problem hypothesis
+- a counterpoint or alternate explanation
 - a "why now" trigger if one exists
 - the recommended buyer persona
 - research confidence: High, Medium, Low, or ICP-only
 
-If the only evidence is segment/category fit, say `ICP-only` and recommend more account research before personalization.
+If the only evidence is segment/category fit, say `ICP-only` and recommend more account research before personalization. Do not state inferred problems as facts.
 
 ---
 
@@ -443,6 +445,10 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 **Evidence:** [Source-backed evidence: news/blog/video/company page/regulatory listing/directory/profile, with URL or source name and date if available.]
 
 **Problem hypothesis:** [The likely business problem or opportunity inferred from the evidence.]
+
+**Problem evidence:** [Observed evidence that supports the problem hypothesis. Include source URL or source name and date if available.]
+
+**Problem reasoning:** [Explain how the evidence leads to the hypothesis. Include at least one counterpoint or alternate interpretation.]
 
 **Why now:** [Recent trigger or reason this is timely. If none found, state "No clear current trigger found."]
 

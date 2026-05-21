@@ -23,6 +23,9 @@ Account fields:
 - account_research_summary
 - why_this_account
 - problem_hypothesis
+- problem_evidence
+- problem_reasoning
+- problem_confidence
 - personalization_evidence
 - evidence_source_urls
 - research_confidence

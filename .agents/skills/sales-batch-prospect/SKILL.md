@@ -44,9 +44,17 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - D: skip
 
 5. Set research depth:
-   - Account insight complete: company has at least one specific, sourced account-level reason and a clear pain hypothesis.
+   - Account insight complete: company has at least one specific, sourced account-level reason and a researched problem hypothesis.
    - ICP-only fit: company matches the segment, but evidence is generic to the category.
    - Needs manual review: source evidence conflicts, is stale, or cannot be verified.
+
+   A researched problem hypothesis must include:
+   - the observed evidence
+   - the source URL or source name
+   - the reasoning chain from evidence to likely problem
+   - confidence level
+
+   Do not write a company-level problem as fact unless the company explicitly stated it. Use "problem hypothesis" for inferred problems and explain the inference.
 
 6. Handoff:
    - send A/B accounts to `sales-enrich-contacts`
@@ -57,8 +65,8 @@ Use this skill when the user provides a list of companies, domains, accounts, or
 
 Produce a batch prospecting table with these fields:
 
-| account | domain | priority | fit score | signal score | confidence | why this account matters | evidence source | pain hypothesis | next skill |
-|---|---|---:|---:|---:|---|---|---|---|---|
+| account | domain | priority | fit score | signal score | confidence | why this account matters | evidence source | problem hypothesis | problem reasoning | next skill |
+|---|---|---:|---:|---:|---|---|---|---|---|---|
 
 For large lists, summarize segment counts and provide a sample of top accounts rather than writing an exhaustive report.
 
@@ -67,6 +75,9 @@ When updating HubSpot, prefer these company-level fields when available:
 - `why_this_account`
 - `account_research_summary`
 - `problem_hypothesis`
+- `problem_evidence`
+- `problem_reasoning`
+- `problem_confidence`
 - `personalization_evidence`
 - `evidence_source_urls`
 - `research_confidence`

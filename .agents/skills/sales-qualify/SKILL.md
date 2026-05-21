@@ -127,6 +127,16 @@ For each data source, extract signals using this approach:
 
 **What we are assessing:** Does this prospect have a problem that our solution solves, and are they aware of it?
 
+Need must be researched and reasoned over. Do not treat industry membership, regulation evidence, or ICP fit as enough by itself. For every claimed problem, capture:
+
+- observed evidence
+- source URL or source name
+- the reasoning chain from evidence to likely problem
+- counterpoint or alternate explanation
+- confidence level: High, Medium, Low, or ICP-only
+
+If evidence is only segment-level, label the problem `ICP-only` and do not use it as deep personalization.
+
 **Signal detection:**
 
 | Signal | Points | Confidence | Where to Find |
@@ -270,6 +280,8 @@ Range: 0-100
 **Output format for each pain point:**
 - Pain point description
 - Evidence (with source)
+- Reasoning chain from evidence to problem hypothesis
+- Counterpoint or alternate explanation
 - Severity estimate (Critical / High / Medium / Low)
 - Your solution's relevance to this pain
 - Confidence level
@@ -435,7 +447,9 @@ Org structure assessment. Buying process estimation.]
 
 ### Need Analysis
 [Detailed findings for Need dimension. Specific pain points detected with evidence.
-Problem awareness level. Current solution satisfaction.]
+Problem awareness level. Current solution satisfaction.
+For each problem hypothesis, include observed evidence, source, reasoning chain,
+counterpoint, severity, confidence, and recommended discovery question.]
 
 ### Timeline Analysis
 [Detailed findings for Timeline dimension. Trigger events, urgency signals,

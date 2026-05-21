@@ -46,14 +46,21 @@ Prioritize signals by recency, relevance, and proximity to a buying event:
    - specificity: account-level beats generic industry trend
    - actionability: clear next step or buyer persona
 
-3. Map signal to action:
+3. Convert signals into problem hypotheses:
+   - observed evidence: the specific fact found
+   - problem hypothesis: the likely business problem or opportunity
+   - reasoning: why that evidence supports the hypothesis
+   - counterpoint: what else the evidence could mean
+   - confidence: High, Medium, Low, or ICP-only
+
+4. Map signal to action:
    - enrich contacts
    - prioritize in batch prospecting
    - personalize outreach
    - build a signal-specific cadence
    - defer to nurture
 
-4. Messaging rule:
+5. Messaging rule:
    - use signals to inform timing and angle
    - avoid wording that feels invasive, such as directly naming private intent data
    - do not convert a private or inferred signal into a factual personalization line unless it is public and source-backed
@@ -62,5 +69,5 @@ Prioritize signals by recency, relevance, and proximity to a buying event:
 
 Create a signal assessment table:
 
-| account | signal | date | source | strength | likely pain | why this matters | recommended angle | next action |
-|---|---|---|---|---|---|---|---|---|
+| account | signal | date | source | strength | problem hypothesis | reasoning | confidence | recommended angle | next action |
+|---|---|---|---|---|---|---|---|---|---|

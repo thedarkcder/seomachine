@@ -123,7 +123,7 @@ Create missing properties after reviewing the dry run:
 python3 scripts/create_hubspot_revops_properties.py --apply
 ```
 
-The script includes account research fields for AI SDR execution, including `why_this_account`, `account_research_summary`, `problem_hypothesis`, `personalization_evidence`, `evidence_source_urls`, `research_confidence`, and `last_researched_date`. These fields are intended to store source-backed account insight, not just ICP or approval status.
+The script includes account research fields for AI SDR execution, including `why_this_account`, `account_research_summary`, `problem_hypothesis`, `problem_evidence`, `problem_reasoning`, `problem_confidence`, `personalization_evidence`, `evidence_source_urls`, `research_confidence`, and `last_researched_date`. These fields are intended to store source-backed account insight and reasoned problem hypotheses, not just ICP or approval status.
 
 ### Creating New Content
 
