@@ -20,6 +20,16 @@ Account fields:
 - account_tier
 - account_fit_score
 - intent_score
+- account_research_summary
+- why_this_account
+- problem_hypothesis
+- problem_evidence
+- problem_reasoning
+- problem_confidence
+- personalization_evidence
+- evidence_source_urls
+- research_confidence
+- last_researched_date
 - source
 - owner
 - lifecycle_status
@@ -40,6 +50,8 @@ Contact fields:
 - linkedin_url
 - contact_fit_score
 - personalization_hook
+- personalization_source
+- contact_research_confidence
 - consent_basis
 - do_not_contact
 

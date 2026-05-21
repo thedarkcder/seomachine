@@ -42,6 +42,8 @@ If the user has not supplied enough context, make reasonable assumptions and ask
    - include priority, reason to target, segment, likely buyer personas, and personalization angles
    - recommend next skill: `sales-enrich-contacts`, `sales-intent-signals`, or `sales-batch-prospect`
 
+   `reason to target` must be source-backed where possible. Do not use "regulation proven", "approved", or "matches ICP" as the final reason unless the user only requested broad list building. For AI SDR execution, route ICP-only accounts to account research before contact enrichment.
+
 ## Output
 
 Create an account sourcing brief with:

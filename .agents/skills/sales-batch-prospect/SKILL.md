@@ -27,6 +27,15 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - likely buying committee
    - research confidence
    - recommended next action
+   - source-backed account reason
+
+   For target accounts, "reason" must not mean "approved", "matches ICP", or "has regulation evidence" by itself. It must explain why this specific company deserves sales attention using researched evidence, such as:
+   - recent news, funding, partnership, expansion, hiring, leadership change, acquisition, or product launch
+   - relevant blog/resource/video/podcast/social post from the company or a leader
+   - website evidence showing a business model, market focus, product line, or operational change that connects to the user's offer
+   - public regulatory, directory, or marketplace evidence that creates a specific sales angle
+
+   If only ICP-level evidence exists, mark the account as `needs_account_research` rather than treating it as personalized.
 
 4. Prioritize:
    - A: enrich and personalize now
@@ -34,16 +43,67 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - C: nurture or test segment
    - D: skip
 
-5. Handoff:
+5. Set research depth:
+   - Account insight complete: company has at least one specific, sourced account-level reason and a researched problem hypothesis.
+   - ICP-only fit: company matches the segment, but evidence is generic to the category.
+   - Needs manual review: source evidence conflicts, is stale, or cannot be verified.
+
+   A researched problem hypothesis must include:
+   - the observed evidence
+   - the source URL or source name
+   - the reasoning chain from evidence to likely problem
+   - confidence level
+
+   Do not write a company-level problem as fact unless the company explicitly stated it. Use "problem hypothesis" for inferred problems and explain the inference.
+
+6. Handoff:
    - send A/B accounts to `sales-enrich-contacts`
    - send uncertain accounts to `sales-research` or `sales-qualify`
    - send campaign-ready accounts to `sales-build-cadence`
+
+7. Present a HubSpot review set before writes:
+   - show every field that would be created or changed
+   - include current value, proposed value, source evidence, reasoning, and confidence
+   - group records into approve, edit, skip, and manual-review queues
+   - ask for explicit approval before applying any HubSpot updates
+   - after approval, write only the approved records and fields
 
 ## Output
 
 Produce a batch prospecting table with these fields:
 
-| account | domain | priority | fit score | signal score | confidence | reason | next skill |
-|---|---|---:|---:|---:|---|---|---|
+| account | domain | priority | fit score | signal score | confidence | why this account matters | evidence source | problem hypothesis | problem reasoning | next skill |
+|---|---|---:|---:|---:|---|---|---|---|---|---|
 
 For large lists, summarize segment counts and provide a sample of top accounts rather than writing an exhaustive report.
+
+When updating HubSpot, prefer these company-level fields when available:
+
+- `why_this_account`
+- `account_research_summary`
+- `problem_hypothesis`
+- `problem_evidence`
+- `problem_reasoning`
+- `problem_confidence`
+- `personalization_evidence`
+- `evidence_source_urls`
+- `research_confidence`
+- `last_researched_date`
+
+Do not mark a company `contact_enrichment_ready` unless the account has either account insight complete or the user has explicitly approved ICP-only enrichment.
+
+## HubSpot Review Output
+
+Before mutating HubSpot, produce a compact review table:
+
+| company | HubSpot ID | field | current value | proposed value | evidence/source | reasoning | confidence | action |
+|---|---|---|---|---|---|---|---|---|
+
+Allowed actions:
+
+- `approve_update`
+- `needs_edit`
+- `skip`
+- `manual_review`
+
+Ask the user to approve, edit, or reject the proposed changes. Do not update HubSpot from the same step that first proposes the changes.

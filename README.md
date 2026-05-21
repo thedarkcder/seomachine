@@ -89,7 +89,7 @@ $sales-proposal acme                       # Proposal draft
 $sales-report                              # Pipeline report
 ```
 
-The `$sales` router can also orient broad requests. The full AI SDR operations flow is: source accounts → batch prospect → enrich contacts → verify emails → read intent signals → score leads → personalize → build cadence → check deliverability → approval queue. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool.
+The `$sales` router can also orient broad requests. The full AI SDR operations flow is: source accounts → batch prospect → enrich contacts → verify emails → read intent signals → score leads → personalize → build cadence → check deliverability → approval queue. Sales workflows generate drafts, recommendations, and reports by default; they do not send outreach or mutate CRM records without explicit approval and a configured tool. For HubSpot updates, sales workflows should first produce a reviewable change set showing current value, proposed value, evidence, reasoning, confidence, and action before any write.
 
 ### RevOps Workflows
 
@@ -104,6 +104,26 @@ $revops-crm-governance         # CRM field, automation, and data quality rules
 ```
 
 Use `$revops` to orient broad revenue operations requests. These skills produce operating plans and governance recommendations; they do not change CRM records, automations, or dashboards without explicit approval and configured tooling.
+
+To create the minimal HubSpot custom properties for a HubSpot-only workflow, add a private app token to `.env`:
+
+```bash
+HUBSPOT_PRIVATE_APP_TOKEN=pat-your-token
+```
+
+Then run a dry run first:
+
+```bash
+python3 scripts/create_hubspot_revops_properties.py
+```
+
+Create missing properties after reviewing the dry run:
+
+```bash
+python3 scripts/create_hubspot_revops_properties.py --apply
+```
+
+The script includes account research fields for AI SDR execution, including `why_this_account`, `account_research_summary`, `problem_hypothesis`, `problem_evidence`, `problem_reasoning`, `problem_confidence`, `personalization_evidence`, `evidence_source_urls`, `research_confidence`, and `last_researched_date`. These fields are intended to store source-backed account insight and reasoned problem hypotheses, not just ICP or approval status.
 
 ### Creating New Content
 

@@ -14,7 +14,7 @@ Use this skill to rank accounts or contacts before deciding what to research, en
 | Account fit | 25 | industry, size, geography, revenue, stage, budget fit |
 | Contact fit | 20 | title, seniority, department, buying committee role |
 | Intent/timing | 20 | fresh buying signals, urgency, leadership change, funding, hiring |
-| Pain relevance | 15 | evidence the account has a problem the offer solves |
+| Pain relevance | 15 | researched evidence plus reasoning that the account likely has a problem the offer solves |
 | Data quality | 10 | verified email, complete fields, source confidence |
 | Outreach readiness | 10 | personalization hooks, channel fit, compliance status |
 
@@ -29,6 +29,7 @@ Adjust the weights for the motion:
 
 1. Score each dimension from 0 to its max weight.
 2. Record the evidence behind each score.
+   For pain relevance, record the observed evidence, source, reasoning chain, confidence, and any plausible counterpoint. Do not score pain highly from segment fit alone.
 3. Apply negative scoring:
    - do-not-contact or unsubscribe: disqualify
    - invalid email: hold

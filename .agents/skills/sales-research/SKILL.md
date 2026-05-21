@@ -335,6 +335,23 @@ Extract the 5 most important insights for the sales team. Each insight should:
 - Include the specific source/evidence
 - Include a recommendation on how to use the insight
 
+### 4.4 Why This Account Matters
+
+Create a concise account narrative that can be stored in HubSpot and used by sales without rereading the full research file. This is not the same as ICP fit or approval status.
+
+The narrative must include:
+
+- a 1-2 sentence researched reason this company is on the list
+- the strongest public evidence found, with source and date when available
+- a problem hypothesis tied to the evidence
+- the reasoning chain from evidence to problem hypothesis
+- a counterpoint or alternate explanation
+- a "why now" trigger if one exists
+- the recommended buyer persona
+- research confidence: High, Medium, Low, or ICP-only
+
+If the only evidence is segment/category fit, say `ICP-only` and recommend more account research before personalization. Do not state inferred problems as facts.
+
 ---
 
 ## Output Format: COMPANY-RESEARCH.md
@@ -420,6 +437,40 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 1. **[Strength]** — [Evidence]. *Sales implication: [how to use this]*
 2. **[Strength]** — [Evidence]. *Sales implication: [how to use this]*
 3. **[Strength]** — [Evidence]. *Sales implication: [how to use this]*
+
+## Why This Account Matters
+
+**Account reason:** [Specific researched reason this company deserves attention. Do not write "approved target account" or "matches ICP" as the reason.]
+
+**Evidence:** [Source-backed evidence: news/blog/video/company page/regulatory listing/directory/profile, with URL or source name and date if available.]
+
+**Problem hypothesis:** [The likely business problem or opportunity inferred from the evidence.]
+
+**Problem evidence:** [Observed evidence that supports the problem hypothesis. Include source URL or source name and date if available.]
+
+**Problem reasoning:** [Explain how the evidence leads to the hypothesis. Include at least one counterpoint or alternate interpretation.]
+
+**Why now:** [Recent trigger or reason this is timely. If none found, state "No clear current trigger found."]
+
+**Recommended persona:** [Role/persona to research first.]
+
+**Research confidence:** [High/Medium/Low/ICP-only]
+
+## Proposed HubSpot Updates
+
+Prepare this section when the user is using HubSpot or asks for CRM updates. This is a review set, not an automatic write.
+
+| field | current value | proposed value | evidence/source | reasoning | confidence | action |
+|---|---|---|---|---|---|---|
+| `account_research_summary` | [current] | [proposed] | [source] | [why this value is accurate] | [level] | [approve_update/needs_edit/skip/manual_review] |
+| `why_this_account` | [current] | [proposed] | [source] | [why this account matters] | [level] | [action] |
+| `problem_hypothesis` | [current] | [proposed] | [source] | [reasoned inference] | [level] | [action] |
+| `problem_evidence` | [current] | [proposed] | [source] | [why this supports the problem hypothesis] | [level] | [action] |
+| `problem_reasoning` | [current] | [proposed] | [source] | [logic plus counterpoint] | [level] | [action] |
+| `problem_confidence` | [current] | [proposed] | [source] | [confidence rationale] | [level] | [action] |
+| `personalization_evidence` | [current] | [proposed] | [source] | [why it is usable for outreach later] | [level] | [action] |
+
+Ask for explicit user approval before writing any proposed HubSpot updates.
 
 ## Risks
 1. **[Risk]** — [Evidence]. *Mitigation: [how to address this]*

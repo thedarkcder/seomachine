@@ -31,26 +31,43 @@ Prioritize signals by recency, relevance, and proximity to a buying event:
    - affected account or contact
    - why it matters for the user's offer
 
+   Prefer account-specific signals over category assumptions. Useful public signals include:
+   - news articles
+   - press releases
+   - company blog/resources
+   - YouTube videos, webinars, podcasts, or conference talks
+   - job posts and hiring pages
+   - LinkedIn/company social posts when available through permissioned tools
+   - regulatory listings, directory listings, partner pages, marketplace profiles, awards, or case studies
+
 2. Score signal quality:
    - recency: fresh beats stale
    - relevance: tied to the problem the product solves
    - specificity: account-level beats generic industry trend
    - actionability: clear next step or buyer persona
 
-3. Map signal to action:
+3. Convert signals into problem hypotheses:
+   - observed evidence: the specific fact found
+   - problem hypothesis: the likely business problem or opportunity
+   - reasoning: why that evidence supports the hypothesis
+   - counterpoint: what else the evidence could mean
+   - confidence: High, Medium, Low, or ICP-only
+
+4. Map signal to action:
    - enrich contacts
    - prioritize in batch prospecting
    - personalize outreach
    - build a signal-specific cadence
    - defer to nurture
 
-4. Messaging rule:
+5. Messaging rule:
    - use signals to inform timing and angle
    - avoid wording that feels invasive, such as directly naming private intent data
+   - do not convert a private or inferred signal into a factual personalization line unless it is public and source-backed
 
 ## Output
 
 Create a signal assessment table:
 
-| account | signal | date | strength | likely pain | recommended angle | next action |
-|---|---|---|---|---|---|---|
+| account | signal | date | source | strength | problem hypothesis | reasoning | confidence | recommended angle | next action |
+|---|---|---|---|---|---|---|---|---|---|
