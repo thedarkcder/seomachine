@@ -7,6 +7,8 @@ description: "Use this Codex sales skill for running AI SDR prospecting across a
 
 Use this skill when the user provides a list of companies, domains, accounts, or CSV rows and wants the SDR workflow applied across the batch.
 
+When the user asks for deep research, account enrichment, or HubSpot company enrichment, use this skill for selection, queueing, and batch coordination. Route the actual account research through `sales-research` and preserve that skill's evidence categories, source coverage, and research depth labels in the batch output.
+
 ## Workflow
 
 1. Confirm the batch structure:
@@ -37,6 +39,8 @@ Use this skill when the user provides a list of companies, domains, accounts, or
 
    If only ICP-level evidence exists, mark the account as `needs_account_research` rather than treating it as personalized.
 
+   In deep research runs, treat the light account pass as triage only. Do not count it as completed deep research unless `sales-research` has produced source coverage and a research depth label.
+
 4. Prioritize:
    - A: enrich and personalize now
    - B: standard research and cadence
@@ -47,6 +51,7 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - Account insight complete: company has at least one specific, sourced account-level reason and a researched problem hypothesis.
    - ICP-only fit: company matches the segment, but evidence is generic to the category.
    - Needs manual review: source evidence conflicts, is stale, or cannot be verified.
+   - Deep / Partial / Thin / Blocked: use these source-agnostic labels from `sales-research` when a deep research pass is requested.
 
    A researched problem hypothesis must include:
    - the observed evidence
@@ -55,6 +60,8 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - confidence level
 
    Do not write a company-level problem as fact unless the company explicitly stated it. Use "problem hypothesis" for inferred problems and explain the inference.
+
+   Do not hardcode source categories as always sufficient or insufficient. Report what each source proves using evidence categories: identity, fit, activity, problem, timing, and contact/person evidence.
 
 6. Handoff:
    - send A/B accounts to `sales-enrich-contacts`
@@ -88,6 +95,8 @@ When updating HubSpot, prefer these company-level fields when available:
 - `personalization_evidence`
 - `evidence_source_urls`
 - `research_confidence`
+- `research_depth`
+- `source_coverage_summary`
 - `last_researched_date`
 
 Do not mark a company `contact_enrichment_ready` unless the account has either account insight complete or the user has explicitly approved ICP-only enrichment.

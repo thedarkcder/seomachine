@@ -29,6 +29,8 @@ Account fields:
 - personalization_evidence
 - evidence_source_urls
 - research_confidence
+- research_depth
+- source_coverage_summary
 - last_researched_date
 - source
 - owner

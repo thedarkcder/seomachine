@@ -94,6 +94,44 @@ When conflicting data is found, prioritize sources in this order:
 - **Revenue estimates:** Must note the estimation methodology and confidence level.
 - **News:** Focus on last 6 months. Anything older goes in "History" section.
 
+### 2.4 Research Depth Standard
+
+Use this standard whenever the user asks for deep research, account enrichment, or HubSpot company enrichment. Keep this standard source-agnostic: the value of a source depends on the user's market, ICP, offer, and campaign context.
+
+Classify evidence by what it proves:
+
+| Evidence category | What it supports |
+|---|---|
+| Identity evidence | The company exists, has the domain claimed, and the record belongs to the right organization. |
+| Fit evidence | The company may match the user's ICP, segment, geography, regulation, size, service category, technology, or business model. |
+| Activity evidence | The company is doing something observable: publishing, hiring, launching, expanding, partnering, attending events, changing leadership, or investing in a visible area. |
+| Problem evidence | The company appears to have, discuss, hire for, invest in, or be exposed to a problem the user's offer can help with. |
+| Timing evidence | There is a reason to act now or prioritize this account sooner. |
+| Contact/person evidence | People, roles, leadership, decision makers, or public individual signals relevant to sales motion. |
+
+For deep research, attempt to cover multiple source categories where available:
+
+- primary website pages
+- company content: blog, resources, news, press, case studies, guides, webinars, videos, podcasts, or events
+- external signals: news, partnerships, awards, reviews, hiring pages, job posts, social/company posts, industry mentions, public profiles, or community references
+- official/source-of-record evidence where relevant
+- people/contact sources where relevant
+
+Do not decide in the generic skill that one source category is always strong or weak. Instead, report what the source proves, what it does not prove, and how confidently it supports the user's current campaign.
+
+#### Research Depth Labels
+
+Use these labels to summarize the result:
+
+| Depth | Standard |
+|---|---|
+| Deep | Multiple useful evidence categories were found and the account has clear fit, context, source-backed reasoning, and a recommended next action. |
+| Partial | Enough evidence exists to improve the CRM record, but one or more important source categories or reasoning gaps remain. |
+| Thin | Only limited useful evidence was found; update the CRM cautiously and explain what is missing. |
+| Blocked | The domain, website, or public sources were inaccessible or ambiguous enough that meaningful research could not be completed. |
+
+Always include source coverage so the user can see what was searched, what was found, and why the conclusion follows from the evidence.
+
 ---
 
 ## Phase 3: The 8 Research Dimensions
@@ -342,12 +380,15 @@ Create a concise account narrative that can be stored in HubSpot and used by sal
 The narrative must include:
 
 - a 1-2 sentence researched reason this company is on the list
+- source coverage: what was searched, what was found, and what was missing
+- evidence category labels for key claims
 - the strongest public evidence found, with source and date when available
 - a problem hypothesis tied to the evidence
 - the reasoning chain from evidence to problem hypothesis
 - a counterpoint or alternate explanation
 - a "why now" trigger if one exists
 - the recommended buyer persona
+- research depth: Deep, Partial, Thin, or Blocked
 - research confidence: High, Medium, Low, or ICP-only
 
 If the only evidence is segment/category fit, say `ICP-only` and recommend more account research before personalization. Do not state inferred problems as facts.
@@ -420,6 +461,22 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 
 ---
 
+## Source Coverage
+
+| Source category | Searched | Useful findings | Evidence category | Notes |
+|---|---|---|---|---|
+| Primary website | [yes/no] | [yes/no] | [identity/fit/activity/problem/timing/contact] | [pages checked and what they proved] |
+| Company content | [yes/no] | [yes/no] | [category] | [content found or missing] |
+| External signals | [yes/no] | [yes/no] | [category] | [signals found or missing] |
+| Official/source-of-record | [yes/no] | [yes/no] | [category] | [records checked and what they proved] |
+| People/contact sources | [yes/no] | [yes/no] | [category] | [people signals found or missing] |
+
+**Research depth:** [Deep / Partial / Thin / Blocked]
+
+**Source coverage summary:** [Plain-English summary of what was searched, what was useful, what was missing, and how that affects confidence.]
+
+---
+
 ## Company Fit Score: [X]/100
 
 | Sub-Dimension | Score | Evidence |
@@ -450,6 +507,8 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 
 **Problem reasoning:** [Explain how the evidence leads to the hypothesis. Include at least one counterpoint or alternate interpretation.]
 
+**Research depth:** [Deep / Partial / Thin / Blocked. Explain briefly.]
+
 **Why now:** [Recent trigger or reason this is timely. If none found, state "No clear current trigger found."]
 
 **Recommended persona:** [Role/persona to research first.]
@@ -469,6 +528,8 @@ Prepare this section when the user is using HubSpot or asks for CRM updates. Thi
 | `problem_reasoning` | [current] | [proposed] | [source] | [logic plus counterpoint] | [level] | [action] |
 | `problem_confidence` | [current] | [proposed] | [source] | [confidence rationale] | [level] | [action] |
 | `personalization_evidence` | [current] | [proposed] | [source] | [why it is usable for outreach later] | [level] | [action] |
+| `source_coverage_summary` | [current] | [proposed] | [source] | [what was searched and what was useful] | [level] | [action] |
+| `research_depth` | [current] | [proposed] | [source] | [why this depth label is appropriate] | [level] | [action] |
 
 Ask for explicit user approval before writing any proposed HubSpot updates.
 
