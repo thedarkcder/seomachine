@@ -117,6 +117,33 @@ For deep research, attempt to cover multiple source categories where available:
 - official/source-of-record evidence where relevant
 - people/contact sources where relevant
 
+Deep research must cross-reference the company's own claims against outside or semi-independent sources where available. Do not label research `Deep` from the company website alone. A deep result should normally include at least:
+
+- first-party positioning: what the company says about itself
+- first-party activity: blogs, resources, product updates, case studies, events, webinars, videos, podcasts, or hiring pages
+- third-party validation or context: news articles, awards, investment/funding profiles, accelerator/incubator profiles, directories, review sites, analyst/industry mentions, partner pages, marketplace listings, or official records
+- people and influence signals where relevant: LinkedIn company page, founder/executive profiles, speaking engagements, podcasts, conference appearances, YouTube channels, social posts, or quoted commentary
+
+If a source type is not found, say it was searched and not found. Missing external corroboration should reduce `research_depth` to `Partial` or `Thin` unless the user explicitly asks for first-party-only research.
+
+Recommended cross-reference searches:
+
+```
+"[company name]" news
+"[company name]" funding OR investment OR investors OR accelerator
+"[company name]" award OR awards OR finalist OR winner
+"[company name]" partnership OR partner OR marketplace
+"[company name]" podcast OR webinar OR YouTube OR interview
+"[company name]" conference OR speaker OR speaking
+"[company name]" careers OR jobs OR hiring
+"[company name]" case study OR customer OR testimonial
+site:linkedin.com/company "[company name]"
+site:youtube.com "[company name]"
+site:[company-domain] blog OR resources OR news OR insights OR articles
+site:[company-domain] careers OR jobs OR hiring
+site:[company-domain] case-study OR case-studies OR customers
+```
+
 Do not decide in the generic skill that one source category is always strong or weak. Instead, report what the source proves, what it does not prove, and how confidently it supports the user's current campaign.
 
 #### Research Depth Labels
@@ -125,9 +152,9 @@ Use these labels to summarize the result:
 
 | Depth | Standard |
 |---|---|
-| Deep | Multiple useful evidence categories were found and the account has clear fit, context, source-backed reasoning, and a recommended next action. |
-| Partial | Enough evidence exists to improve the CRM record, but one or more important source categories or reasoning gaps remain. |
-| Thin | Only limited useful evidence was found; update the CRM cautiously and explain what is missing. |
+| Deep | First-party evidence plus external corroboration were found across multiple useful evidence categories, producing clear fit, context, source-backed reasoning, and a recommended next action. |
+| Partial | Enough evidence exists to improve the CRM record, but one or more important external source categories, people signals, or reasoning gaps remain. |
+| Thin | Mostly first-party, identity, profile, or limited public evidence was found; update the CRM cautiously and explain what is missing. |
 | Blocked | The domain, website, or public sources were inaccessible or ambiguous enough that meaningful research could not be completed. |
 
 Always include source coverage so the user can see what was searched, what was found, and why the conclusion follows from the evidence.
@@ -470,6 +497,9 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 | External signals | [yes/no] | [yes/no] | [category] | [signals found or missing] |
 | Official/source-of-record | [yes/no] | [yes/no] | [category] | [records checked and what they proved] |
 | People/contact sources | [yes/no] | [yes/no] | [category] | [people signals found or missing] |
+| LinkedIn/social | [yes/no] | [yes/no] | [category] | [company/founder/executive social signals found or missing] |
+| YouTube/podcast/webinar/speaking | [yes/no] | [yes/no] | [category] | [media or speaking signals found or missing] |
+| Awards/investment/accelerators | [yes/no] | [yes/no] | [category] | [validation or funding signals found or missing] |
 
 **Research depth:** [Deep / Partial / Thin / Blocked]
 

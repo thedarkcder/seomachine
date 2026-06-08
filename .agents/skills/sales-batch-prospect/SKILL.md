@@ -40,6 +40,7 @@ When the user asks for deep research, account enrichment, or HubSpot company enr
    If only ICP-level evidence exists, mark the account as `needs_account_research` rather than treating it as personalized.
 
    In deep research runs, treat the light account pass as triage only. Do not count it as completed deep research unless `sales-research` has produced source coverage and a research depth label.
+   Do not count website-only research as `Deep`; use `Partial` or `Thin` unless the `sales-research` pass includes external corroboration or a documented hunt across external channels.
 
 4. Prioritize:
    - A: enrich and personalize now
@@ -62,6 +63,7 @@ When the user asks for deep research, account enrichment, or HubSpot company enr
    Do not write a company-level problem as fact unless the company explicitly stated it. Use "problem hypothesis" for inferred problems and explain the inference.
 
    Do not hardcode source categories as always sufficient or insufficient. Report what each source proves using evidence categories: identity, fit, activity, problem, timing, and contact/person evidence.
+   For deep research, preserve whether blogs/resources, LinkedIn/social, YouTube/podcast/webinar/speaking, hiring, case studies, news, awards, investment/funding, accelerators, and third-party mentions were searched and found.
 
 6. Handoff:
    - send A/B accounts to `sales-enrich-contacts`
