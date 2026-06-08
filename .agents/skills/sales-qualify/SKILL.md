@@ -46,8 +46,6 @@ Gather qualification signals from these sources. Use `web fetch or browser/searc
 | **Social media** | Company posts, executive posts, engagement | Problem awareness, vendor sentiment, trigger events |
 | **Competitor mentions** | References to competing solutions on their site or job posts | Current solutions, competitive landscape |
 
-For deep research or HubSpot enrichment runs, do not treat qualification as complete if the only evidence is fit evidence such as regulatory status, Companies House, directories, a basic About page, or a broad third-party profile. Those sources can support ICP fit, but they do not establish a high-confidence Need or Timeline.
-
 ### 1.2 Signal Extraction Methodology
 
 For each data source, extract signals using this approach:
@@ -66,8 +64,6 @@ For each data source, extract signals using this approach:
 | **Medium** | Reasonable inference from available data | 5 open engineering roles suggests growing tech team |
 | **Low** | Indirect signal requiring interpretation | Blog post about "scaling challenges" suggests growing pains |
 | **Inferred** | Educated guess based on company profile | Series B company likely has $500K+ annual software budget |
-| **ICP-only** | Fit or category evidence without account-specific problem evidence | FCA listing confirms regulated status, but no current company activity or pain signal found |
-| **Source-limited** | A deep search was attempted, but useful account-specific evidence was not found | Website/profile/register found, but no content, news, hiring, events, or problem signal discovered |
 
 ---
 

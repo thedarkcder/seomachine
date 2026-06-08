@@ -224,7 +224,6 @@ PROPERTIES = (
             {"label": "Medium", "value": "medium"},
             {"label": "Low", "value": "low"},
             {"label": "ICP Only", "value": "icp_only"},
-            {"label": "Source Limited", "value": "source_limited"},
         ),
     ),
     HubSpotProperty(
@@ -258,7 +257,6 @@ PROPERTIES = (
             {"label": "Medium", "value": "medium"},
             {"label": "Low", "value": "low"},
             {"label": "ICP Only", "value": "icp_only"},
-            {"label": "Source Limited", "value": "source_limited"},
         ),
     ),
     HubSpotProperty(

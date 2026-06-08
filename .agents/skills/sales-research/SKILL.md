@@ -94,58 +94,6 @@ When conflicting data is found, prioritize sources in this order:
 - **Revenue estimates:** Must note the estimation methodology and confidence level.
 - **News:** Focus on last 6 months. Anything older goes in "History" section.
 
-### 2.4 Deep Research Completion Standard
-
-Use this standard whenever the user asks for deep research, account enrichment, or HubSpot company enrichment.
-
-Deep research is not complete when the only findings are:
-
-- regulatory records
-- Companies House records
-- directory listings
-- a basic About page
-- a third-party profile
-- generic ICP/category fit
-
-Those sources can prove fit, identity, and regulatory relevance, but they do not prove account insight, current priorities, or a high-confidence problem hypothesis.
-
-To count a company as deeply researched, attempt to collect evidence from at least these source groups:
-
-1. Primary website: homepage plus relevant service/product/sector pages.
-2. Company content: blog, resources, news, press, case studies, guides, webinars, videos, podcasts, or events.
-3. External account signals: news articles, partnerships, awards, conference appearances, reviews, hiring pages/job posts, social/company posts, or credible industry mentions.
-4. Source-of-record evidence where relevant: FCA, Companies House, directories, partner listings, marketplace profiles, or other official registers.
-
-If one source group is unavailable, explicitly state it was searched and not found. Continue looking for another source group before concluding.
-
-Recommended search patterns:
-
-```
-"[company name]" news
-"[company name]" blog OR resources OR insights
-"[company name]" YouTube OR webinar OR podcast OR interview
-"[company name]" partnership OR award OR event
-"[company name]" careers OR jobs OR hiring
-"[company name]" "[target segment]"
-site:[company-domain] blog OR resources OR news OR insights
-site:[company-domain] case-study OR case-studies OR customers
-site:linkedin.com/company "[company name]"
-```
-
-#### Deep Research Confidence
-
-Set confidence based on evidence depth:
-
-| Confidence | Standard |
-|---|---|
-| High | Multiple account-specific sources, including at least one source showing current activity, positioning, hiring, content, news, partnership, event, case study, or leadership signal. |
-| Medium | Good company website evidence plus at least one external or account-specific signal, but weak recency or limited problem evidence. |
-| Low | Thin account-specific evidence; mostly basic website, directory, or indirect signals. |
-| ICP-only | Evidence proves fit or category relevance only, such as FCA, Companies House, directory, or generic service category evidence. |
-| Source-limited | A real deep search was attempted, but useful account-specific sources were not found. Record searched source groups and what was missing. |
-
-Do not mark `research_confidence` or `problem_confidence` as High from source-of-record evidence alone. Do not set `next_action = decision_maker_research` unless the account has account-specific evidence or the user explicitly allows enrichment from ICP-only records.
-
 ---
 
 ## Phase 3: The 8 Research Dimensions
@@ -394,7 +342,6 @@ Create a concise account narrative that can be stored in HubSpot and used by sal
 The narrative must include:
 
 - a 1-2 sentence researched reason this company is on the list
-- source groups searched and which ones produced useful findings
 - the strongest public evidence found, with source and date when available
 - a problem hypothesis tied to the evidence
 - the reasoning chain from evidence to problem hypothesis
@@ -403,7 +350,7 @@ The narrative must include:
 - the recommended buyer persona
 - research confidence: High, Medium, Low, or ICP-only
 
-If the only evidence is segment/category fit, source-of-record evidence, or a basic profile, say `ICP-only` or `Source-limited` and recommend more account research before personalization. Do not state inferred problems as facts.
+If the only evidence is segment/category fit, say `ICP-only` and recommend more account research before personalization. Do not state inferred problems as facts.
 
 ---
 
@@ -473,19 +420,6 @@ Written for a sales rep who needs to get up to speed in 60 seconds.]
 
 ---
 
-## Source Coverage
-
-| Source group | Searched | Useful findings | Notes |
-|---|---|---|---|
-| Primary website | [yes/no] | [yes/no] | [pages checked] |
-| Company content | [yes/no] | [yes/no] | [blog/news/video/resources/case studies found or missing] |
-| External account signals | [yes/no] | [yes/no] | [news/partnerships/awards/hiring/social/events found or missing] |
-| Source-of-record | [yes/no] | [yes/no] | [registers/directories/profiles checked] |
-
-If useful findings are limited to source-of-record or basic website evidence, do not call the account deeply researched. Mark `research_confidence` as `ICP-only`, `Low`, or `Source-limited`.
-
----
-
 ## Company Fit Score: [X]/100
 
 | Sub-Dimension | Score | Evidence |
@@ -515,8 +449,6 @@ If useful findings are limited to source-of-record or basic website evidence, do
 **Problem evidence:** [Observed evidence that supports the problem hypothesis. Include source URL or source name and date if available.]
 
 **Problem reasoning:** [Explain how the evidence leads to the hypothesis. Include at least one counterpoint or alternate interpretation.]
-
-**Research depth:** [Deep / Partial / ICP-only / Source-limited. Explain briefly.]
 
 **Why now:** [Recent trigger or reason this is timely. If none found, state "No clear current trigger found."]
 
