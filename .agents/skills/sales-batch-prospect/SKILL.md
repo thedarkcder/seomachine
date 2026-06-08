@@ -7,6 +7,8 @@ description: "Use this Codex sales skill for running AI SDR prospecting across a
 
 Use this skill when the user provides a list of companies, domains, accounts, or CSV rows and wants the SDR workflow applied across the batch.
 
+When the user asks for deep research, account enrichment, or HubSpot company enrichment, do not stop at classification. Route each selected company through `sales-research` and apply that skill's Deep Research Completion Standard before counting the company as researched.
+
 ## Workflow
 
 1. Confirm the batch structure:
@@ -37,6 +39,8 @@ Use this skill when the user provides a list of companies, domains, accounts, or
 
    If only ICP-level evidence exists, mark the account as `needs_account_research` rather than treating it as personalized.
 
+   For deep research runs, a light account pass is only selection and triage. It is not the final research output.
+
 4. Prioritize:
    - A: enrich and personalize now
    - B: standard research and cadence
@@ -47,6 +51,7 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - Account insight complete: company has at least one specific, sourced account-level reason and a researched problem hypothesis.
    - ICP-only fit: company matches the segment, but evidence is generic to the category.
    - Needs manual review: source evidence conflicts, is stale, or cannot be verified.
+   - Source-limited: a real deep search was attempted but did not find useful company content, external account signals, or recent activity.
 
    A researched problem hypothesis must include:
    - the observed evidence
@@ -55,6 +60,15 @@ Use this skill when the user provides a list of companies, domains, accounts, or
    - confidence level
 
    Do not write a company-level problem as fact unless the company explicitly stated it. Use "problem hypothesis" for inferred problems and explain the inference.
+
+   Do not classify source-of-record evidence alone as deep research. FCA, Companies House, directories, and third-party profiles can support account fit, but they are not enough by themselves for `research_confidence = high`, `problem_confidence = high`, or `next_action = decision_maker_research`.
+
+   A completed deep-research record should include source coverage:
+   - primary website pages checked
+   - company content searched/found
+   - external account signals searched/found
+   - source-of-record checked where relevant
+   - what was missing
 
 6. Handoff:
    - send A/B accounts to `sales-enrich-contacts`
@@ -91,6 +105,11 @@ When updating HubSpot, prefer these company-level fields when available:
 - `last_researched_date`
 
 Do not mark a company `contact_enrichment_ready` unless the account has either account insight complete or the user has explicitly approved ICP-only enrichment.
+
+For deep research loops, do not count a company toward the requested total if the result is only classification. Count it only when either:
+
+- deep research fields were updated with source coverage and account-specific insight, or
+- the record was marked `Source-limited` with searched source groups and missing evidence documented.
 
 ## HubSpot Review Output
 
