@@ -1,0 +1,11 @@
+sales-research
+↓
+sales-company-specialist
+↓
+sales-contacts-specialist
+↓
+sales-opportunity-specialist
+↓
+sales-strategy-specialist
+↓
+sales-prospect

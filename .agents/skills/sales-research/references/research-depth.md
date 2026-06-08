@@ -1,0 +1,1 @@
+Deep = website + external corroboration + people + activity signals.

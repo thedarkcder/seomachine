@@ -1,0 +1,1 @@
+Founder -> podcasts/interviews. Customer -> case studies. Partner -> announcements.

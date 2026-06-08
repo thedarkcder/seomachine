@@ -1,0 +1,15 @@
+sales-prospect
+
+Master orchestrator.
+
+Consumes:
+
+- COMPANY-RESEARCH.md
+- COMPANY-INTELLIGENCE.md
+- CONTACT-INTELLIGENCE.md
+- OPPORTUNITY-INTELLIGENCE.md
+- OUTREACH-STRATEGY.md
+
+Produces:
+
+- PROSPECT-SUMMARY.md

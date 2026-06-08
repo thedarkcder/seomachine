@@ -1,238 +1,332 @@
 ---
 name: sales-contacts-specialist
-description: "Use this Codex sales specialist skill for focused AI SDR review passes. You are the **Contact Intelligence Specialist**, one of 5 specialist passes launched during `$sales-prospect <url>`. Your specific responsibility is evaluating **Contact Access**, which accounts for **20% of the overall Prospect Score**."
+description: "Use this Codex sales specialist skill to map the buying committee, identify priority contacts, assess contact access, and create SDR-ready personalization paths."
 ---
 
-# Sales Contact Intelligence Specialist
+# Sales Contacts Specialist
 
-This is a Codex-native sales specialist skill. Use it as a focused review pass inside `$sales-prospect` or as a standalone specialist analysis when requested.
+## Purpose
 
-## Codex Operating Notes
+Find the right people.
 
-- Consume the discovery briefing or user-provided account context before scoring.
-- Return structured findings, score breakdowns, confidence levels, risks, and next actions.
-- Do not claim private contact details unless they are user-provided or found in public/permissioned sources.
+This skill turns company intelligence into a contact strategy.
 
-## Role
+It answers:
 
-You are the **Contact Intelligence Specialist**, one of 5 specialist passes launched during `$sales-prospect <url>`. Your specific responsibility is evaluating **Contact Access**, which accounts for **20% of the overall Prospect Score**.
-
-Your job is to map the buying committee, identify key decision makers and influencers, find personalization anchors for each contact, and assess the feasibility of multi-threaded outreach. The quality of contact intelligence directly determines whether outreach will land or fall flat.
+1. Who should we contact?
+2. Why do they matter?
+3. What role do they play in the buying process?
+4. What can we personalize around?
+5. Can we multi-thread the account?
 
 ---
 
-## Input
+## Inputs
 
-You receive:
-- **Company URL:** The website URL of the prospect company
-- **Company Name:** The name of the company (from the company research specialist or URL)
-- **ICP Context (if available):** Contents of `IDEAL-CUSTOMER-PROFILE.md` if it exists, specifically the buyer personas section for matching contacts to expected personas
+Use the best available input in this order:
+
+1. `COMPANY-INTELLIGENCE.md`
+2. `COMPANY-RESEARCH.md`
+3. Discovery briefing from `sales-prospect`
+4. User-provided account notes
+5. Public web/search results if needed
+
+---
+
+## Operating Rules
+
+- Do not invent people.
+- Do not guess private emails or phone numbers.
+- Use public or user-provided information only.
+- Prioritize quality over quantity.
+- Mark inferred roles clearly.
+- Separate confirmed facts from assumptions.
+- Focus on SDR usefulness.
 
 ---
 
 ## Analysis Process
 
-### Step 1: Fetch Team and Leadership Pages
+### Step 1: Identify Target Personas
 
-Use web fetch or browser/search tools to retrieve and analyze:
+From the company intelligence, identify likely personas.
 
-1. **Team/About page** (`/about`, `/team`, `/about-us`, `/our-team`, `/leadership`) -- Names, titles, photos, bios
-2. **Leadership page** (`/leadership`, `/management`, `/executives`) -- C-suite and VP-level contacts
-3. **Company LinkedIn page** -- Team size, employee list preview
-4. **Careers page** (`/careers`, `/jobs`) -- Hiring manager names, team structure clues
+Common roles:
 
-Extract every name and title you can find. Note the source for each.
+- CEO / Founder
+- CFO / Finance Director
+- COO / Operations Director
+- Commercial Director
+- Head of Digital
+- Head of Sales
+- Head of Customer Experience
+- CTO / Head of Technology
+- Compliance Manager
+- Product Owner
+- Transformation Lead
 
-### Step 2: Search for Key Executives
+---
 
-Run web search queries to find decision makers:
+### Step 2: Find Actual People
 
-1. `"[company name]" CEO OR founder OR "co-founder"` -- Identify top leadership
-2. `"[company name]" "VP" OR "Vice President" OR "Head of" OR "Director"` -- Mid-senior leaders
-3. `"[company name]" CTO OR "VP Engineering" OR "Head of Engineering"` -- Technical buyers
-4. `"[company name]" "VP Sales" OR "VP Marketing" OR "Head of Growth"` -- Revenue leaders
-5. `"[company name]" site:linkedin.com [relevant title]` -- LinkedIn profiles for specific roles
+Search:
 
-For each person found, record:
-- Full name
-- Current title
-- How long they've been in role (if visible)
-- Previous company/role (for personalization)
-- Any public content they've created (blog posts, podcast appearances, conference talks)
+- Company website
+- Team / leadership pages
+- LinkedIn company page
+- Press releases
+- News articles
+- Conference speaker pages
+- Podcasts / webinars
+- Blog authors
+- Awards pages
+- Partner announcements
 
-### Step 3: Map the Buying Committee
+For each person capture:
 
-Based on the product being sold (inferred from ICP or context), identify who would be involved in a purchase decision:
+```yaml
+name:
+title:
+company:
+source:
+current_role_confidence:
+buying_role:
+priority:
+personalization_anchors:
+```
 
-**Typical B2B Buying Committee Roles:**
+---
 
-| Role | Who | Importance | Why They Matter |
-|------|-----|-----------|-----------------|
-| **Economic Buyer** | CFO, VP Finance, CEO | Critical | Controls budget, final sign-off |
-| **Technical Buyer** | CTO, VP Engineering, IT Director | Critical | Evaluates technical fit, integration |
-| **User Buyer** | Team leads, managers who'll use it daily | High | Champions based on daily pain |
-| **Coach/Champion** | Internal advocate at any level | High | Guides you through the process |
-| **Blocker** | Procurement, Legal, Security | Medium | Can slow or kill deals |
-| **Influencer** | Advisors, board members, consultants | Low-Medium | Shapes opinions indirectly |
+### Step 3: Map Buying Committee
 
-Map ACTUAL people at the prospect company to these roles. If you can't identify someone for a role, note the gap -- it's a risk factor.
+Classify people into:
 
-### Step 4: Identify Personalization Anchors
+| Buying Role | Description |
+|---|---|
+| Economic Buyer | Controls budget or final sign-off |
+| Champion | Feels the pain and may advocate internally |
+| Technical Evaluator | Reviews technical fit, data, integration, security |
+| User Buyer | Team who would use or benefit from the product |
+| Blocker | Legal, compliance, procurement, security, finance |
+| Influencer | Advisor, board member, partner, or public voice |
 
-For each key contact (top 3-5 people), find personalization hooks:
+---
 
-- **Professional Background:** Previous companies, career trajectory, expertise areas
-- **Content They've Created:** Blog posts, LinkedIn articles, podcast appearances, conference talks, tweets, GitHub contributions
-- **Shared Connections:** Mutual LinkedIn connections, shared alma maters, common previous employers, shared community memberships
-- **Recent Activity:** Job change, promotion, company announcement they were part of, content they recently engaged with
-- **Interests and Values:** Causes they support, topics they post about, communities they're active in
-- **Trigger Events:** Recently started role (first 90 days = open to new tools), recently promoted (new budget authority), recently posted about relevant pain point
+### Step 4: Find Personalization Anchors
 
-For each anchor, rate its strength:
-- **Strong:** Directly relevant, recent, personal (recent blog post about exact pain point you solve)
-- **Medium:** Relevant but indirect (shared alma mater, similar career path)
-- **Weak:** Generic (same industry, same city)
+Look for:
 
-### Step 5: Find Warm Paths
+- Recent promotion
+- New role
+- Public post
+- Article
+- Podcast
+- Webinar
+- Conference talk
+- Award
+- Quote in press
+- Previous company experience
+- Relevant project
+- Hiring responsibility
+- Product or transformation initiative
 
-Search for connection opportunities that turn cold outreach into warm introductions:
+Rate each anchor:
 
-- **Mutual Connections:** Do any of your existing contacts know people at this company? (Note: you're inferring this -- suggest the user check their LinkedIn network)
-- **Shared Communities:** Are target contacts active in specific Slack groups, LinkedIn groups, Reddit communities, industry associations?
-- **Shared Events:** Have they attended or spoken at conferences you've attended? Upcoming events where you could meet?
-- **Content Engagement:** Can you engage with their content (comment on posts, share articles) before reaching out?
-- **Shared Background:** Alumni networks, previous employer overlap, geographic community
-- **Referral Paths:** Are any of their customers, partners, or investors in your network?
+- Strong: recent, specific, and relevant
+- Medium: relevant but not personal
+- Weak: generic or old
 
-Rate each warm path by feasibility (Easy / Medium / Hard) and strength (Strong / Medium / Weak).
+---
+
+### Step 5: Build Contact Strategy
+
+Create:
+
+- top 3 priority contacts
+- recommended first contact
+- backup contact
+- multi-threading plan
+- warm path ideas
+- contact gaps
 
 ---
 
 ## Scoring
 
-Score each dimension on a 0-10 scale:
+Score each dimension 0-10.
 
-| Dimension | Score Range | What It Measures |
-|-----------|-----------|------------------|
-| **Decision Makers Identified** | 0-10 | Have you identified the key people who would be involved in a purchase? Can you name the economic buyer, technical buyer, and likely champion? |
-| **Contact Info Quality** | 0-10 | How easy would it be to actually reach these people? Public email, LinkedIn, active on social? |
-| **Personalization Depth** | 0-10 | How many strong personalization anchors do you have? Can you write a message that feels personal, not templated? |
-| **Warm Paths** | 0-10 | Are there feasible warm introduction paths? Mutual connections, shared communities, events? |
-| **Multi-Threading Potential** | 0-10 | Can you reach multiple people in the buying committee? Is there a multi-threaded strategy available? |
+| Dimension | Meaning |
+|---|---|
+| Decision Makers Identified | Named people found for key buying roles |
+| Persona Fit | Contacts match likely buyers for the offer |
+| Personalization Depth | Useful, specific hooks found |
+| Contact Accessibility | Public professional channels are visible |
+| Multi-Threading Potential | More than one useful stakeholder can be approached |
 
-### Scoring Calibration
+Contact Access Score:
 
-- **9-10:** Exceptional. Multiple decision makers identified with names, titles, strong personalization anchors, and clear warm paths. You could write a highly personalized email right now.
-- **7-8:** Strong. Key decision makers identified, good personalization hooks, at least one warm path option.
-- **5-6:** Moderate. Some contacts found but missing key roles. Limited personalization. No clear warm paths.
-- **3-4:** Weak. Few contacts identified. Generic information only. Cold outreach is the only option.
-- **1-2:** Poor. Almost no contact information found. Company is opaque about leadership.
-- **0:** No contacts identified at all. Company has zero public team presence.
-
-**Contact Access Score** = (Decision Makers Identified + Contact Info Quality + Personalization Depth + Warm Paths + Multi-Threading Potential) / 5 * 10
-
-This yields a 0-100 score.
+```text
+(Decision Makers Identified + Persona Fit + Personalization Depth + Contact Accessibility + Multi-Threading Potential) / 5 * 10
+```
 
 ---
 
-## Output Format
+## Output
+
+Write `CONTACT-INTELLIGENCE.md`.
+
+Use this format:
 
 ```markdown
-## Contact Access Analysis
+# Contact Intelligence: [Company Name]
 
-**Contact Access Score: [X]/100**
+**Contact Access Score:** [X]/100
+**Confidence:** [High / Medium / Low]
 
-### Dimension Scores
+---
+
+## SDR Summary
+
+[3-5 concise bullets.]
+
+---
+
+## Score Breakdown
 
 | Dimension | Score | Evidence |
-|-----------|-------|----------|
-| Decision Makers Identified | X/10 | [brief evidence] |
-| Contact Info Quality | X/10 | [brief evidence] |
-| Personalization Depth | X/10 | [brief evidence] |
-| Warm Paths | X/10 | [brief evidence] |
-| Multi-Threading Potential | X/10 | [brief evidence] |
+|---|---:|---|
+| Decision Makers Identified | X/10 | |
+| Persona Fit | X/10 | |
+| Personalization Depth | X/10 | |
+| Contact Accessibility | X/10 | |
+| Multi-Threading Potential | X/10 | |
 
-### Buying Committee Map
+---
 
-| Role | Name | Title | Confidence | Source |
-|------|------|-------|------------|--------|
-| Economic Buyer | [name or Unknown] | [title] | High/Med/Low | [source] |
-| Technical Buyer | [name or Unknown] | [title] | High/Med/Low | [source] |
-| User Buyer | [name or Unknown] | [title] | High/Med/Low | [source] |
-| Champion Candidate | [name or Unknown] | [title] | High/Med/Low | [source] |
-| Potential Blocker | [name or Unknown] | [title] | High/Med/Low | [source] |
+## Buying Committee Map
 
-### Priority Contacts (Ranked by Outreach Priority)
+| Buying Role | Name | Title | Confidence | Source |
+|---|---|---|---|---|
+| Economic Buyer | | | | |
+| Champion | | | | |
+| Technical Evaluator | | | | |
+| User Buyer | | | | |
+| Blocker | | | | |
+| Influencer | | | | |
 
-#### Contact 1: [Name] -- [Title]
-- **Role in Buying Process:** [Economic Buyer / Technical Buyer / Champion / etc.]
-- **Why Prioritize:** [reason this person should be contacted first]
-- **Personalization Anchors:**
-  - [Anchor 1 -- strength: Strong/Medium/Weak] [source]
-  - [Anchor 2 -- strength: Strong/Medium/Weak] [source]
-  - [Anchor 3 -- strength: Strong/Medium/Weak] [source]
-- **Best Outreach Channel:** [LinkedIn / Email / Event / Referral]
-- **Suggested Opening Angle:** [1-2 sentence suggestion for how to open the conversation]
+---
 
-#### Contact 2: [Name] -- [Title]
-[same structure]
+## Priority Contacts
 
-#### Contact 3: [Name] -- [Title]
-[same structure]
+### 1. [Name] — [Title]
 
-### Organizational Chart (Inferred)
+**Buying role:**
+**Why this person matters:**
+**Priority:** High / Medium / Low
+**Source:**
+**Personalization anchors:**
+-
+-
 
-```
-[CEO/Founder Name]
-├── [CTO/VP Engineering] -- Technical buying authority
-│   ├── [Engineering Manager] -- Potential champion
-│   └── [DevOps Lead] -- User buyer
-├── [VP Sales/Marketing] -- Revenue stakeholder
-│   └── [Marketing Manager] -- Potential user
-└── [CFO/VP Finance] -- Economic buyer
-```
+**Suggested opening angle:**
 
-### Personalization Anchor Summary
+---
 
-| Contact | Strongest Anchor | Type | Recency |
-|---------|-----------------|------|---------|
-| [Name 1] | [anchor description] | Content/Background/Event | [date] |
-| [Name 2] | [anchor description] | Content/Background/Event | [date] |
-| [Name 3] | [anchor description] | Content/Background/Event | [date] |
+### 2. [Name] — [Title]
 
-### Warm Path Opportunities
+**Buying role:**
+**Why this person matters:**
+**Priority:** High / Medium / Low
+**Source:**
+**Personalization anchors:**
+-
+-
 
-| Path Type | Detail | Feasibility | Strength |
-|-----------|--------|-------------|----------|
-| [Shared community] | [specific detail] | Easy/Med/Hard | Strong/Med/Weak |
-| [Content engagement] | [specific detail] | Easy/Med/Hard | Strong/Med/Weak |
-| [Alumni network] | [specific detail] | Easy/Med/Hard | Strong/Med/Weak |
+**Suggested opening angle:**
 
-### Multi-Threading Strategy
+---
 
-**Recommended approach for engaging multiple stakeholders:**
+### 3. [Name] — [Title]
 
-1. **Primary Thread:** [Name + Title] -- [outreach approach]
-2. **Secondary Thread:** [Name + Title] -- [outreach approach]
-3. **Tertiary Thread:** [Name + Title] -- [outreach approach]
+**Buying role:**
+**Why this person matters:**
+**Priority:** High / Medium / Low
+**Source:**
+**Personalization anchors:**
+-
+-
 
-**Timing:** [Recommended sequence -- simultaneous or staggered? Why?]
+**Suggested opening angle:**
 
-### Contact Intelligence Gaps
+---
 
-- [Gap 1: What's missing and how it affects the strategy]
-- [Gap 2: What's missing and suggested workaround]
+## Multi-Threading Plan
+
+| Sequence | Contact | Reason | Channel |
+|---|---|---|---|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
+
+---
+
+## Warm Path Ideas
+
+| Path | Detail | Confidence |
+|---|---|---|
+| Content engagement | | |
+| Event / webinar | | |
+| Shared network to check | | |
+| Partner / customer route | | |
+
+---
+
+## Contact Gaps
+
+-
+-
+
+---
+
+## Handoff to Next Skills
+
+### For `sales-opportunity-specialist`
+[Authority gaps, qualification questions, buyer concerns.]
+
+### For `sales-strategy-specialist`
+[Best person to target first and the strongest personalization angle.]
 ```
 
 ---
 
-## Important Rules
+## Terminal Summary
 
-1. **Only report contacts you actually found.** Never invent names, titles, or email addresses. If you can't find the VP of Engineering, say "Not identified" -- don't make up a name.
-2. **Cite your sources for every contact.** Note whether you found them on the company website, LinkedIn search results, a news article, or a conference speaker list.
-3. **Respect privacy.** Do not attempt to find personal phone numbers, personal email addresses, or home addresses. Stick to professional/public information.
-4. **Prioritize quality over quantity.** 3 well-researched contacts with strong personalization beats 10 names with no context.
-5. **Be realistic about warm paths.** Don't suggest "mutual connections" unless you have evidence of shared networks. Suggest the user CHECK their network rather than assuming connections exist.
-6. **Note confidence levels.** If a title or role assignment is inferred rather than confirmed, mark it as "Low confidence" or "Inferred."
-7. **Flag stale data.** If someone's LinkedIn shows they left the company 6 months ago, note this rather than including them as a current contact.
-8. **Personalization must be genuine.** "They work in tech" is not personalization. "They wrote a blog post last month about migrating from monolith to microservices" IS personalization.
+Also print:
+
+```text
+=== CONTACT INTELLIGENCE COMPLETE ===
+
+Company: [name]
+Contact Access Score: [X]/100
+Confidence: [High/Medium/Low]
+
+Best First Contact: [name/title]
+Best Buying Role Found: [role]
+Strongest Personalization Anchor: [anchor]
+
+Saved to: CONTACT-INTELLIGENCE.md
+```
+
+---
+
+## What This Skill Should Not Do
+
+Do not:
+- write full email sequences
+- qualify the opportunity in detail
+- perform broad company research
+- invent contact data
+- scrape private data
+- update CRM records
+
+Those belong to other skills.
